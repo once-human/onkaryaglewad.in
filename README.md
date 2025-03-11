@@ -173,3 +173,64 @@ If you find any issues with this project or would like to suggest changes, feel 
 ## ❤️ Thanks
 
 Thanks to everyone who supported.
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+## Deployment to GitHub Pages
+
+This website is configured for automatic deployment to GitHub Pages using GitHub Actions.
+
+### Automatic Deployment
+
+1. Push changes to the `main` or `master` branch
+2. GitHub Actions will automatically build and deploy the site to GitHub Pages
+
+### Manual Deployment
+
+If you prefer to deploy manually:
+
+1. Build the static site:
+   ```bash
+   npm run build
+   ```
+
+2. The `out` directory will contain the static site files
+
+3. Deploy using GitHub Pages:
+   ```bash
+   # Create a new branch for GitHub Pages
+   git checkout --orphan gh-pages
+   
+   # Add the out directory
+   git add -f out
+   
+   # Commit the changes
+   git commit -m "Deploy to GitHub Pages"
+   
+   # Push to GitHub
+   git subtree push --prefix out origin gh-pages
+   ```
+
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```
+# For form submissions (use Formspree for static sites)
+NEXT_PUBLIC_FORM_SUBMISSION_URL=https://formspree.io/f/your_formspree_id
+```
+
+## Technologies Used
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found</title>
+  <script>
+    // Redirect to the main app with a 404 path
+    // This helps maintain the SPA behavior on GitHub Pages
+    const repo = 'onkaryaglewad.in';
+    const path = window.location.pathname;
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const basePath = isGitHubPages ? `/${repo}` : '';
+    
+    window.location.href = `${basePath}/?path=${path}`;
+  </script>
+</head>
+<body>
+  <h1>Page Not Found</h1>
+  <p>Redirecting to home page...</p>
+</body>
+</html> 
