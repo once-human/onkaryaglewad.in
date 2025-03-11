@@ -1,10 +1,10 @@
-# 🌐 Dileepa Bandara - Personal Website
+# 🌐 Onkar Yaglewad - Personal Website
 
-Welcome to my personal website project, hosted at [dileepa.dev](https://dileepa.dev/). This website is designed to showcase my portfolio, share information about me, and provide a platform for sharing my thoughts and experiences.
+Welcome to my personal website project, hosted at [onkaryaglewad.in](https://onkaryaglewad.in/). This website is designed to showcase my portfolio, share information about me, and provide a platform for sharing my thoughts and experiences.
 
 ## 📚 Table of Contents
 
-- [🌐 Dileepa Bandara - Personal Website](#-dileepa-bandara---personal-website)
+- [🌐 Onkar Yaglewad - Personal Website](#-dileepa-bandara---personal-website)
   - [📚 Table of Contents](#-table-of-contents)
   - [📸 Captured Media](#-captured-media)
   - [🌟 Features](#-features)
@@ -24,7 +24,7 @@ Welcome to my personal website project, hosted at [dileepa.dev](https://dileepa.
 
 ## 📸 Captured Media
 
-![Screenshot of dileepa.dev](./public/screenshot.png)
+![Screenshot of onkaryaglewad.in](./public/screenshot-dead.png)
 
 ## 🌟 Features
 
