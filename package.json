@@ -1,13 +1,13 @@
 {
-  "name": "dileepa.dev",
-  "version": "1.1.1",
+  "name": "onkaryaglewad.in",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build"
+    "export": "next export"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.5",

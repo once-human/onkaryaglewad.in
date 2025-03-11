@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
-const isGithubPages = process.env.NODE_ENV === 'production';
-const repoName = "onkaryaglewad.in"; // Your GitHub repo name
+
+const isGithubActions = process.env.GITHUB_ACTIONS || false;
+const repo = 'onkaryaglewad.in';
 
 const nextConfig = {
   output: 'export',
-  basePath: isGithubPages ? `/${repoName}` : '',
-  assetPrefix: isGithubPages ? `/${repoName}/` : '',
+  
+  // Configure basePath and assetPrefix for GitHub Pages deployment
+  basePath: isGithubActions ? `/${repo}` : '',
+  assetPrefix: isGithubActions ? `/${repo}/` : '',
+  
+  // Required for static export
   images: {
-    unoptimized: true, // Required for static export
+    unoptimized: true,
   },
-  // This is needed for GitHub Pages to work with Next.js 13+
+  
+  // Required for GitHub Pages compatibility in Next.js 13+
   trailingSlash: true,
 };
 
