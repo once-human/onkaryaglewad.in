@@ -1,11 +1,11 @@
 export default class SiteInfo {
-  public static readonly username: string = "Dileepa Bandara";
+  public static readonly username: string = "Onkar Yaglewad";
   public static readonly title: string =
-    "Computing Student | Solution Developer | Community Volunteer | Content Creator";
+    "B.Tech CSE Student | Web Developer | Software Developer";
   public static readonly description: string =
-    "Hi, everyone! I'm a Computing Student, Solution Developer, Community Volunteer and Content Creator.";
-  public static readonly email: string = "contact@dileepa.dev";
-  public static readonly domain: string = "dileepa.dev";
+    "Hi, everyone! I'm Onkar Yaglewad, a B.Tech CSE student and developer from Pune, Maharashtra.";
+  public static readonly email: string = "onkaryaglewad@gmail.com";
+  public static readonly domain: string = "onkaryaglewad.in";
   public static readonly keywords: string =
-    "Dileepa Bandara, Personal Website, Computing Student, Solution Developer, Community Volunteer, Content Creator, Sri Lanka";
+    "Onkar Yaglewad, Personal Website, B.Tech CSE Student, Web Developer, Software Developer, Pune, Maharashtra, India";
 }

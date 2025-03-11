@@ -1,13 +1,13 @@
 export default class WebLinks {
-  public static readonly github: string = "https://github.com/dileepadev";
+  public static readonly github: string = "https://github.com/yaglewad-onkar";
   public static readonly linkedin: string =
-    "https://linkedin.com/in/dileepadev";
-  public static readonly xtwitter: string = "https://twitter.com/dileepadev";
-  public static readonly youtube: string = "https://youtube.com/@dileepadev";
-  public static readonly instagram: string = "https://instagram.com/dileepadev";
-  public static readonly email: string = "contact@dileepa.dev";
+    "https://linkedin.com/in/yaglewad-onkar/";
+  public static readonly xtwitter: string = "";
+  public static readonly youtube: string = "";
+  public static readonly instagram: string = "";
+  public static readonly email: string = "onkaryaglewad@gmail.com";
   public static readonly githubRepo: string =
-    "https://github.com/dileepadev/dileepa.dev";
+    "https://github.com/once-human/onkaryaglewad.in";
 }
 
 export const NavLinks = [
@@ -21,7 +21,7 @@ export const NavLinks = [
 export const PageLinks = {
   about: {
     linkedInRecommendations:
-      "https://linkedin.com/in/dileepadev/#recommendations",
+      "https://linkedin.com/in/yaglewad-onkar/#recommendations",
     prabhath: "https://linkedin.com/in/dprabhath/",
     ruwandika: "https://linkedin.com/in/ruwandika/",
     isuru: "https://linkedin.com/in/isuru-devinda-1996323m/",
@@ -30,7 +30,7 @@ export const PageLinks = {
     buwaneka: "https://linkedin.com/in/buwaneka-jayasundara/",
   },
   education: {
-    nibm: "https://www.nibm.lk/",
+    nibm: "https://www.dypiu.ac.in/",
     coventry: "https://www.coventry.ac.uk/",
     mms: "https://www.maliyadevaadarshappa.lk/",
   },

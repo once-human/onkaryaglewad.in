@@ -11,7 +11,7 @@ const ProfilePicture = ({ isMobile }: { isMobile: boolean }) => {
     >
       <Image
         src={profilePicture}
-        alt="Profile picture of Dileepa Bandara"
+        alt="Profile picture of Onkar Yaglewad"
         width={imageWidth}
         height={imageHeight}
         quality={100}
@@ -32,12 +32,12 @@ export default function Home() {
         <h1 className="pageHeaderTheme">
           Hi, everyone!
           <br />
-          I&apos;m Dileepa Bandara.
+          I&apos;m Onkar Yaglewad.
         </h1>
         <p className="mt-8 font-normal text-base md:text-lg textTertiaryTheme max-w-4xl text-center mx-auto px-4 md:px-0">
-          Welcome to my profile. I&apos;m a student and developer who loves to
-          solve problems while helping others by leveraging Artificial
-          Intelligence, Software Development, and Cloud Computing technologies.
+          Welcome to my profile. I&apos;m a B.Tech CSE student from Pune, passionate about 
+          Web Development and Software Development. I enjoy building responsive websites 
+          and applications using modern technologies.
         </p>
         <ProfilePicture isMobile={false} />
         <ProfilePicture isMobile={true} />
