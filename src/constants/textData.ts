@@ -1046,7 +1046,7 @@ const connectPageData: ConnectPageData = {
     {
       title: "Instagram",
       link: WebLinks.instagram,
-      handler: "",
+      handler: "yaglewad_onkar",
       icon: "instagram",
     },
   ],

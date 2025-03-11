@@ -53,7 +53,7 @@ const ContactForm = () => {
             type="text"
             name="name"
             id="name"
-            placeholder="Enter your name here (e.g. Dileepa Bandara)"
+            placeholder="Enter your name here (e.g. Onkar Yaglewad)"
             className={placeHolderTheme}
             value={formData.name}
             onChange={handleChange}
@@ -70,7 +70,7 @@ const ContactForm = () => {
             type="email"
             name="email"
             id="email"
-            placeholder="Enter your email here (e.g. contact@dileepa.dev)"
+            placeholder="Enter your email here (e.g. onkaryaglewad@gmail.com)"
             className={placeHolderTheme}
             value={formData.email}
             onChange={handleChange}
@@ -104,7 +104,7 @@ const ContactForm = () => {
             name="message"
             id="message"
             rows={5}
-            placeholder="Enter your message here (e.g. Hello Dileepa! I'd like to say Hi!)"
+            placeholder="Enter your message here (e.g. Hello Onkar! I'd like to say Hi!)"
             className={placeHolderTheme}
             value={formData.message}
             onChange={handleChange}

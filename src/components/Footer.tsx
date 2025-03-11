@@ -9,7 +9,7 @@ const Footer = () => {
     <div>
       <div className="flex flex-col gap-2 justify-center items-center pb-5 pt-5 outline outline-1 footerTheme">
         <p className="text-sm textTheme">
-          Copyright © {new Date().getFullYear()} Dileepa Bandara
+          Copyright © {new Date().getFullYear()} Onkar Yaglewad
         </p>
         <p className="text-sm textTheme">
           Version {packageJson.version} | Built with Next.js{" "}

@@ -4,7 +4,7 @@ export default class WebLinks {
     "https://linkedin.com/in/yaglewad-onkar/";
   public static readonly xtwitter: string = "";
   public static readonly youtube: string = "";
-  public static readonly instagram: string = "";
+  public static readonly instagram: string = "https://instagram.com/yaglewad_onkar";
   public static readonly email: string = "onkaryaglewad@gmail.com";
   public static readonly githubRepo: string =
     "https://github.com/once-human/onkaryaglewad.in";
