@@ -1,10 +1,10 @@
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
-const mainFont = localFont({
-  src: "../../public/fonts/Inter/Inter-VariableFont_opsz,wght.ttf",
+const mainFont = Inter({
+  subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700"],
   fallback: ["system-ui", "arial"],
-  preload: true,
   variable: "--font-inter"
 });
 

@@ -34,8 +34,8 @@ jobs:
       - name: Build with Next.js
         run: npm run build
       
-      - name: Copy CNAME to output directory
-        run: cp CNAME ./out/ || echo "No CNAME file found"
+      - name: Ensure CNAME in output directory
+        run: echo "onkaryaglewad.in" > ./out/CNAME
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

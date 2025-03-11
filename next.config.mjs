@@ -1,14 +1,13 @@
 /** @type {import('next').NextConfig} */
 
-const isGithubActions = process.env.GITHUB_ACTIONS || false;
-const repo = 'onkaryaglewad.in';
-
+// For custom domains, we don't need basePath or assetPrefix
+// The CNAME file in the repository root tells GitHub Pages to use the custom domain
 const nextConfig = {
   output: 'export',
   
-  // Configure basePath and assetPrefix for GitHub Pages deployment
-  basePath: isGithubActions ? `/${repo}` : '',
-  assetPrefix: isGithubActions ? `/${repo}/` : '',
+  // No basePath or assetPrefix needed for custom domain
+  basePath: '',
+  assetPrefix: '',
   
   // Required for static export
   images: {
