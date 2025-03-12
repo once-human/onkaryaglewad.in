@@ -175,6 +175,37 @@ export interface ConnectPageData {
   submitMessage: string;
 }
 
+export interface SkillsPageData {
+  title: {
+    technical: string;
+    soft: string;
+    languages: string;
+  };
+  subtitle: {
+    technical: string;
+    soft: string;
+    languages: string;
+  };
+  technicalSkills: Array<{
+    id: number;
+    name: string;
+    proficiency: number;
+    description: string;
+  }>;
+  softSkills: Array<{
+    id: number;
+    name: string;
+    proficiency: number;
+    description: string;
+  }>;
+  languages: Array<{
+    id: number;
+    name: string;
+    proficiency: number;
+    description: string;
+  }>;
+}
+
 export interface FormData {
   name: string;
   email: string;

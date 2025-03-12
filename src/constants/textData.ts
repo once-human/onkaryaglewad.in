@@ -6,6 +6,7 @@ import {
   ExperiencePageData,
   MediaPageData,
   ConnectPageData,
+  SkillsPageData,
 } from "@/types/interfaces";
 
 const aboutPageData: AboutPageData = {
@@ -1056,12 +1057,122 @@ const connectPageData: ConnectPageData = {
     "Thanks for contacting me! I'll get back to you as soon as possible. 😊",
 };
 
+const skillsPageData: SkillsPageData = {
+  title: {
+    technical: "Technical Skills",
+    soft: "Soft Skills",
+    languages: "Languages",
+  },
+  subtitle: {
+    technical: "My technical expertise and proficiencies.",
+    soft: "Personal attributes that enable me to interact effectively with others.",
+    languages: "Languages I can communicate in.",
+  },
+  technicalSkills: [
+    {
+      id: 1,
+      name: "Web Development",
+      proficiency: 90,
+      description: "Proficient in HTML, CSS, JavaScript, and modern frameworks like React and Next.js.",
+    },
+    {
+      id: 2,
+      name: "Programming Languages",
+      proficiency: 85,
+      description: "Experienced with Python, JavaScript, C, C++, and Java.",
+    },
+    {
+      id: 3,
+      name: "Database Management",
+      proficiency: 80,
+      description: "Skilled in SQL, MongoDB, and Firebase for data storage and retrieval.",
+    },
+    {
+      id: 4,
+      name: "Version Control",
+      proficiency: 85,
+      description: "Proficient with Git and GitHub for collaborative development.",
+    },
+    {
+      id: 5,
+      name: "UI/UX Design",
+      proficiency: 75,
+      description: "Capable of creating user-friendly interfaces and experiences.",
+    },
+    {
+      id: 6,
+      name: "API Development",
+      proficiency: 80,
+      description: "Experienced in creating and consuming RESTful APIs.",
+    },
+  ],
+  softSkills: [
+    {
+      id: 1,
+      name: "Communication",
+      proficiency: 90,
+      description: "Effective verbal and written communication skills.",
+    },
+    {
+      id: 2,
+      name: "Problem Solving",
+      proficiency: 85,
+      description: "Analytical approach to identifying and resolving complex issues.",
+    },
+    {
+      id: 3,
+      name: "Teamwork",
+      proficiency: 90,
+      description: "Collaborative mindset with experience in diverse team environments.",
+    },
+    {
+      id: 4,
+      name: "Time Management",
+      proficiency: 85,
+      description: "Efficient prioritization and organization of tasks and projects.",
+    },
+    {
+      id: 5,
+      name: "Adaptability",
+      proficiency: 80,
+      description: "Quick to learn new technologies and adjust to changing requirements.",
+    },
+    {
+      id: 6,
+      name: "Leadership",
+      proficiency: 75,
+      description: "Experience leading small teams and coordinating project activities.",
+    },
+  ],
+  languages: [
+    {
+      id: 1,
+      name: "English",
+      proficiency: 90,
+      description: "Professional working proficiency",
+    },
+    {
+      id: 2,
+      name: "Hindi",
+      proficiency: 95,
+      description: "Native proficiency",
+    },
+    {
+      id: 3,
+      name: "Marathi",
+      proficiency: 100,
+      description: "Native proficiency",
+    },
+  ],
+};
+
 const textData = {
   aboutPageData,
   educationPageData,
   experiencePageData,
   mediaPageData,
   connectPageData,
+  skillsPageData,
 };
 
 export default textData;
