@@ -20,26 +20,30 @@ export default function NavBar() {
         isMobile ? "py-2" : "md:flex-row"
       }`}
     >
-      {NavLinks.map((link) => (
-        <li key={link.key} className={isMobile ? "py-2" : "px-4"}>
-          <Link href={link.href}>
-            <p
-              className={`font-regular text-md textButtonTheme transitionButtonTheme ${
-                link.href === pathname || (link.href !== "/" && pathname.startsWith(link.href)) && !isMobile
-                  ? "navBarSelectedItem selectedNavItem"
-                  : ""
-              } ${
-                link.href === pathname || (link.href !== "/" && pathname.startsWith(link.href)) && isMobile
-                  ? "navBarSelectedItemMobile selectedNavItem"
-                  : ""
-              } `}
-              onClick={() => setMenuOpen(false)}
-            >
-              {link.label}
-            </p>
-          </Link>
-        </li>
-      ))}
+      {NavLinks.map((link) => {
+        const isActive = link.href === pathname || 
+                         (link.href !== "/" && pathname.startsWith(link.href));
+        return (
+          <li key={link.key} className={isMobile ? "py-2" : "px-4"}>
+            <Link href={link.href}>
+              <p
+                className={`font-regular text-md textButtonTheme transitionButtonTheme ${
+                  isActive && !isMobile
+                    ? "navBarSelectedItem selectedNavItem"
+                    : ""
+                } ${
+                  isActive && isMobile
+                    ? "navBarSelectedItemMobile selectedNavItem"
+                    : ""
+                } `}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </p>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 
