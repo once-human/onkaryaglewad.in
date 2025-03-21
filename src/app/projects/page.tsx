@@ -2,27 +2,19 @@ import ItemCards from "@/components/ItemCards";
 import textData from "@/constants/textData";
 import SectionTitle from "@/components/SectionTitle";
 
-export default function Media() {
+export default function Projects() {
   return (
     <div>
-      <section key="Event Highlights">
+      <section key="Projects">
         <SectionTitle
-          title={textData.mediaPageData.title.events}
-          subTitle={textData.mediaPageData.subtitle.events}
+          title="Projects"
+          subTitle="Check out some of the projects I've worked on."
         />
-        <ItemCards.eventsCard listItems={textData.mediaPageData.eventsList} />
-      </section>
-      {/* <section key="Log">
-        <SectionTitle
-          title="Log"
-          subTitle="A collection of my media appearances and mentions."
-        />
-        <ItemCards.bannerCard imageSrc="/banner.webp" />
         <ItemCards.iconCard
-          listItems={textData.mediaPageData.log}
-          page="Media"
+          listItems={textData.experiencePageData.projects}
+          page="Projects"
         />
-      </section> */}
+      </section>
     </div>
   );
 }
