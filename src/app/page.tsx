@@ -30,7 +30,7 @@ export default function Home() {
       <div className="absolute pointer-events-none inset-0 flex items-center justify-center bodyTheme [mask-image:radial-gradient(ellipse_at_center,transparent_5%,black)]"></div>
       <div className="flex flex-col items-center justify-evenly relative">
         <h1 className="pageHeaderTheme">
-          Hi, everyone!
+          Hey, everyone!
           <br />
           I&apos;m Onkar Yaglewad.
         </h1>

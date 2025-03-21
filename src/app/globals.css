@@ -53,7 +53,7 @@
 }
 
 .selectedNavItem {
-  @apply text-neutral-900 dark:text-neutral-100;
+  @apply text-neutral-900 dark:text-white font-medium;
 }
 
 .navBarSelectedItem {
@@ -63,12 +63,11 @@
 .navBarSelectedItem::after {
   content: "•";
   position: absolute;
-  /* top: -90%; */
   top: 85%;
   left: 50%;
   font-size: 10px;
   transform: translateX(-50%);
-  @apply text-neutral-900 dark:text-neutral-100;
+  @apply text-neutral-900 dark:text-white;
 }
 
 .navBarSelectedItemMobile {
@@ -82,7 +81,7 @@
   left: calc(100% + 5px);
   font-size: 10px;
   transform: translateY(-50%);
-  @apply text-neutral-900 dark:text-neutral-100;
+  @apply text-neutral-900 dark:text-white;
 }
 
 .cardTheme {

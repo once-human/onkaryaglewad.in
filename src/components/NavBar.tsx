@@ -25,11 +25,11 @@ export default function NavBar() {
           <Link href={link.href}>
             <p
               className={`font-regular text-md textButtonTheme transitionButtonTheme ${
-                link.href === pathname && !isMobile
+                link.href === pathname || (link.href !== "/" && pathname.startsWith(link.href)) && !isMobile
                   ? "navBarSelectedItem selectedNavItem"
                   : ""
               } ${
-                link.href === pathname && isMobile
+                link.href === pathname || (link.href !== "/" && pathname.startsWith(link.href)) && isMobile
                   ? "navBarSelectedItemMobile selectedNavItem"
                   : ""
               } `}

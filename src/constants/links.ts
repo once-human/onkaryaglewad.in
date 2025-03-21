@@ -11,10 +11,11 @@ export default class WebLinks {
 }
 
 export const NavLinks = [
+  { href: "/", key: "home", label: "Home" },
   { href: "/about", key: "about", label: "About" },
-  { href: "/education", key: "education", label: "Education" },
   { href: "/experience", key: "experience", label: "Experience" },
-  { href: "/media", key: "media", label: "Media" },
+  { href: "/projects", key: "projects", label: "Projects" },
+  { href: "/highlights", key: "highlights", label: "Highlights" },
   { href: "/connect", key: "connect", label: "Connect" },
 ];
 
