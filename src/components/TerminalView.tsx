@@ -6,10 +6,14 @@ import { IoClose } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi"; // Icon for new tab button
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion'; // Import motion components
 
+// Define segment type for colored output
+type OutputSegment = string | { text: string; className: string };
+
 interface HistoryItem {
   id: number;
-  command: string;
-  prompt: string;
+  command?: string; // Make command optional for system output
+  prompt?: string;  // Make prompt optional
+  output?: OutputSegment[][]; // Changed to array of segment arrays
 }
 
 interface Tab {
@@ -40,9 +44,44 @@ const overlayVariants = {
   exit: { opacity: 0 }
 };
 
+// Define colors
+const LOGO_COLOR = "text-cyan-400";
+const USER_HOST_COLOR = "text-cyan-400";
+const LABEL_COLOR = "text-blue-400"; // Using blue as requested
+const VALUE_COLOR = "text-gray-200"; // Default text color
+
+// Structured and Colored Neofetch Output
+const neofetchOutput: OutputSegment[][] = [
+  [{ text: "                   -`                  ", className: LOGO_COLOR }, { text: "onkar@arch", className: USER_HOST_COLOR }],
+  [{ text: "                  .o+`                 ", className: LOGO_COLOR }, { text: "OS", className: LABEL_COLOR }, `: ${VALUE_COLOR}Arch Linux x86_64`],
+  [{ text: "                 `ooo/                 ", className: LOGO_COLOR }, { text: "Host", className: LABEL_COLOR }, `: ${VALUE_COLOR}HP 250 G8 Notebook PC`],
+  [{ text: "                `+oooo:                ", className: LOGO_COLOR }, { text: "Kernel", className: LABEL_COLOR }, `: ${VALUE_COLOR}6.13.8-zen1-1-zen`],
+  [{ text: "               `+oooooo:               ", className: LOGO_COLOR }, { text: "Uptime", className: LABEL_COLOR }, `: ${VALUE_COLOR}1 hour, 21 mins`],
+  [{ text: "               -+oooooo+:              ", className: LOGO_COLOR }, { text: "Packages", className: LABEL_COLOR }, `: ${VALUE_COLOR}1610 (pacman), 15 (flatpak)`],
+  [{ text: "             `/:-:++oooo+:             ", className: LOGO_COLOR }, { text: "Shell", className: LABEL_COLOR }, `: ${VALUE_COLOR}zsh 5.9`],
+  [{ text: "            `/++++/+++++++:            ", className: LOGO_COLOR }, { text: "Resolution", className: LABEL_COLOR }, `: ${VALUE_COLOR}1366x768`],
+  [{ text: "           `/++++++++++++++:           ", className: LOGO_COLOR }, { text: "DE", className: LABEL_COLOR }, `: ${VALUE_COLOR}Hyprland`],
+  [{ text: "          `/+++ooooooooooooo/`         ", className: LOGO_COLOR }, { text: "Theme", className: LABEL_COLOR }, `: ${VALUE_COLOR}adw-gtk3-dark [GTK3]`],
+  [{ text: "         ./ooosssso++osssssso+`        ", className: LOGO_COLOR }, { text: "Icons", className: LABEL_COLOR }, `: ${VALUE_COLOR}Adwaita [GTK3]`],
+  [{ text: "        .oossssso-````/ossssss+`       ", className: LOGO_COLOR }, { text: "Terminal", className: LABEL_COLOR }, `: ${VALUE_COLOR}foot`],
+  [{ text: "       -osssssso.      :ssssssso.      ", className: LOGO_COLOR }, { text: "CPU", className: LABEL_COLOR }, `: ${VALUE_COLOR}11th Gen Intel i3-1115G4 (4) @ 4.100GHz`],
+  [{ text: "      :osssssss/        osssso+++.     ", className: LOGO_COLOR }, { text: "GPU", className: LABEL_COLOR }, `: ${VALUE_COLOR}Intel Tiger Lake-LP GT2 [UHD Graphics G4]`],
+  [{ text: "     /ossssssss/        +ssssooo/-     ", className: LOGO_COLOR }, { text: "Memory", className: LABEL_COLOR }, `: ${VALUE_COLOR}10337MiB / 15726MiB`],
+  [{ text: "   `/ossssso+/:-        -:/+osssso+-   ", className: LOGO_COLOR }],
+  [{ text: "  `+sso+:-`                 `.-/+oso:  ", className: LOGO_COLOR }],
+  [{ text: " `++:.                           `-/+/ ", className: LOGO_COLOR }],
+  [{ text: " .`                                 `/  ", className: LOGO_COLOR }],
+  [""], // Empty line
+];
+
 export default function TerminalView() {
   const { isTerminalOpen, toggleTerminal } = useTerminal();
-  const [tabs, setTabs] = useState<Tab[]>([{ id: 1, title: 'zsh', history: [], currentInputValue: '' }]);
+  const [tabs, setTabs] = useState<Tab[]>([{ 
+    id: 1, 
+    title: 'zsh', 
+    history: [{ id: Date.now(), output: neofetchOutput }], // Use structured output
+    currentInputValue: '' 
+  }]);
   const [activeTabId, setActiveTabId] = useState(1);
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -56,7 +95,13 @@ export default function TerminalView() {
   const username = "guest";
   const hostname = "onkaryaglewad.in";
   const currentDir = "~";
-  const promptString = `[${username}@${hostname} ${currentDir}]$`;
+  // Use USER_HOST_COLOR for prompt parts
+  const promptString = `[${username}@${hostname} ${currentDir}]$`; 
+  const promptPrefix = (<>
+     <span className={USER_HOST_COLOR}>[{username}@{hostname}</span>
+     <span className="text-purple-400 px-1">{currentDir}</span>
+     <span className={USER_HOST_COLOR}>]$</span>
+  </>); 
 
   // Focus input when terminal opens or active tab changes
   useEffect(() => {
@@ -89,8 +134,9 @@ export default function TerminalView() {
     const currentCommand = tabs.find(t => t.id === activeTabId)?.currentInputValue ?? '';
     if (e.key === 'Enter' && currentCommand.trim() !== '') {
       e.preventDefault();
+      // Store raw prompt string in history, handle coloring during render
       const newHistoryItem: HistoryItem = {
-        id: Date.now(), // Use timestamp for unique key within history
+        id: Date.now(), 
         prompt: promptString,
         command: currentCommand,
       };
@@ -252,21 +298,37 @@ export default function TerminalView() {
               className="flex-grow p-4 bg-gray-900/90 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-black/40 font-mono relative"
               onClick={() => inputRef.current?.focus()} 
             >
-              {/* Command History (from active tab) */} 
+              {/* Updated History Rendering */} 
               {activeHistory.map(item => (
-                <div key={item.id} className="flex">
-                  <span className="text-cyan-400">{item.prompt.slice(0, item.prompt.indexOf(' '))}</span> {/* User@host part */} 
-                  <span className="text-purple-400 px-1">{item.prompt.slice(item.prompt.indexOf(' '), item.prompt.indexOf(']') + 1)}</span> {/* Path part */} 
-                  <span className="text-cyan-400">$</span>
-                  <span className="ml-2 text-gray-200 break-words">{item.command}</span>
+                <div key={item.id} className="flex flex-wrap"> {/* Use flex-wrap for safety */} 
+                  {item.output ? (
+                    // Render structured output lines
+                    <div className="w-full whitespace-pre-wrap mb-1">
+                      {item.output.map((line, lineIndex) => (
+                        <div key={lineIndex}>
+                          {line.map((segment, segIndex) => 
+                            typeof segment === 'string' 
+                              ? <span key={segIndex}>{segment}</span> 
+                              : <span key={segIndex} className={segment.className}>{segment.text}</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : item.prompt && item.command !== undefined ? (
+                     // Render user command line with colored prompt
+                    <>
+                      <span className={USER_HOST_COLOR}>[{username}@{hostname}</span>
+                      <span className="text-purple-400 px-1">{currentDir}</span>
+                      <span className={USER_HOST_COLOR}>]$</span>
+                      <span className="ml-2 text-gray-200 break-words flex-1">{item.command}</span>
+                    </>
+                  ) : null}
                 </div>
               ))}
 
               {/* Current Input Line */} 
               <div className="mt-1 flex items-center">
-                <span className="text-cyan-400">[{username}@{hostname}</span>
-                <span className="text-purple-400 px-1">{currentDir}</span>
-                <span className="text-cyan-400">]$</span>
+                {promptPrefix} { /* Use the colored prompt prefix */}
                 <input 
                   ref={inputRef}
                   type="text"
