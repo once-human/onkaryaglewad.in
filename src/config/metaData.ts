@@ -22,7 +22,7 @@ const metadataJSON: Metadata = {
     creator: `@${WebLinks.xtwitter}`,
     title: SiteInfo.username,
     description: SiteInfo.description,
-    images: "/banner.webp",
+    images: "/profile.webp",
   },
   openGraph: {
     type: "website",
@@ -33,7 +33,7 @@ const metadataJSON: Metadata = {
     description: SiteInfo.description,
     images: [
       {
-        url: `/banner.webp`,
+        url: `/profile.webp`,
         width: 1200,
         height: 630,
         alt: SiteInfo.username,
