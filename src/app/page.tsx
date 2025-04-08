@@ -1,5 +1,5 @@
 import Image from "next/image";
-import profilePicture from "../../public/profile.webp";
+import profilePicture from "./icon.webp";
 
 const ProfilePicture = ({ isMobile }: { isMobile: boolean }) => {
   const imageWidth = isMobile ? 200 : 300;

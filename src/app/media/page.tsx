@@ -2,6 +2,8 @@ import ItemCards from "@/components/ItemCards";
 import textData from "@/constants/textData";
 import SectionTitle from "@/components/SectionTitle";
 import { MediaPageData } from "@/types/interfaces";
+import Image from "next/image";
+import profilePicture from "./icon.webp";
 
 export default function Media() {
   return (
