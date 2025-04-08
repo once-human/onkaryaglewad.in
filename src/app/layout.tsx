@@ -28,17 +28,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TerminalProvider>
-            <div className="relative flex flex-col h-screen">
+            <div className="relative flex flex-col min-h-screen">
               <NavBar />
               <main className="py-6 pb-5 md:pb-10 mt-20 md:mt-24 xs:mx-6 sm:mx-12 md:mx-16 flex-grow">
                 {children}
               </main>
               <ThemeSwitcher />
-              <div className="hidden md:flex">
-                <Footer />
-              </div>
-              <TerminalView />
+              <Footer />
             </div>
+            <TerminalView />
             <Analytics />
             <SpeedInsights />
           </TerminalProvider>

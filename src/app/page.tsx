@@ -35,9 +35,7 @@ export default function Home() {
           I&apos;m Onkar Yaglewad.
         </h1>
         <p className="mt-8 font-normal text-base md:text-lg textTertiaryTheme max-w-4xl text-center mx-auto px-4 md:px-0">
-          Welcome to my profile. I&apos;m a B.Tech CSE student from Pune, passionate about 
-          Web Development and Software Development. I enjoy building responsive websites 
-          and applications using modern technologies.
+          Flutter based cross-platform app developer.
         </p>
         <ProfilePicture isMobile={false} />
         <ProfilePicture isMobile={true} />
