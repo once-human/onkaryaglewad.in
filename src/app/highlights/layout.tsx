@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SiteInfo from "@/config/siteInfo";
 
 export const metadata: Metadata = {
-  title: "Highlights | " + SiteInfo.siteName,
+  title: "Highlights | " + SiteInfo.username,
   description: "Key highlights and notable events from my journey.",
 };
 
