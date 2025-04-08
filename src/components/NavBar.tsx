@@ -9,10 +9,13 @@ import IconMenu from "./icons/IconMenu";
 import SocialMediaBar from "./SocialMediaBar";
 import Footer from "./Footer";
 import { ThemeSwitcher } from "./theme/ThemeSwitcher";
+import { useTerminal } from "@/context/TerminalContext";
+import { VscTerminal } from "react-icons/vsc";
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { toggleTerminal } = useTerminal();
 
   const renderNavLinks = (isMobile: boolean) => (
     <ul
@@ -70,9 +73,19 @@ export default function NavBar() {
           </div>
         </div>
         {/* 💻 Desktop NavBar Items */}
-        <div className="md:flex hidden">{renderNavLinks(false)}</div>
-        {/* 💻 Social Media Links */}
-        <div className="md:flex hidden">
+        <div className="md:flex hidden items-center">
+          {renderNavLinks(false)}
+        </div>
+        {/* 💻 Right Side Items (Desktop) */}
+        <div className="md:flex hidden items-center">
+          <button 
+            onClick={toggleTerminal} 
+            className="p-2 mr-4 textButtonTheme transitionButtonTheme"
+            aria-label="Toggle Terminal View"
+            title="Toggle Terminal View"
+          >
+            <VscTerminal size={20} />
+          </button>
           <SocialMediaBar />
         </div>
       </div>
@@ -94,10 +107,20 @@ export default function NavBar() {
             <SocialMediaBar />
           </div>
         </div>
-        {/* 📱 Footer & ThemeSwitcher 📱 */}
-        <ThemeSwitcher />
-        <div className="pb-2">
-          <Footer />
+        {/* 📱 Lower Section (Mobile Menu) */}
+        <div className="flex flex-col items-center">
+          <button 
+            onClick={() => { toggleTerminal(); setMenuOpen(false); }}
+            className="p-2 mb-4 textButtonTheme transitionButtonTheme"
+            aria-label="Toggle Terminal View"
+            title="Toggle Terminal View"
+          >
+            <VscTerminal size={24} />
+          </button>
+          <ThemeSwitcher />
+          <div className="pb-2">
+            <Footer />
+          </div>
         </div>
       </div>
     </nav>
