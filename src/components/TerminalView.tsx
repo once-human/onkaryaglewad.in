@@ -473,17 +473,23 @@ export default function TerminalView() {
             >
               {/* Updated History Rendering */} 
               {activeHistory.map(item => (
-                <div key={item.id} className="flex flex-wrap mb-1"> {/* Added mb-1 */}
+                <div key={item.id} className="flex flex-wrap mb-1">
                   {item.output ? (
                     // Render structured output lines
-                    <div className="w-full whitespace-pre-wrap"> {/* Removed mb-1 from here */}
+                    <div className="w-full whitespace-pre-wrap">
                       {item.output.map((line, lineIndex) => (
-                        <div key={lineIndex}>
-                          {line.map((segment, segIndex) => 
-                            typeof segment === 'string' 
+                        <div key={lineIndex} className="flex"> {/* Use flex for potential side-by-side */} 
+                          {line.map((segment, segIndex) => {
+                            const isAsciiArt = typeof segment !== 'string' && segment.className === LOGO_COLOR && segIndex === 0;
+                            return typeof segment === 'string' 
                               ? <span key={segIndex}>{segment}</span> 
-                              : <span key={segIndex} className={segment.className}>{segment.text}</span>
-                          )}
+                              : <span 
+                                  key={segIndex} 
+                                  className={`${segment.className} ${isAsciiArt ? 'hidden md:inline-block pr-4' : ''}`} // Hide ASCII on small screens, add padding when shown
+                                >
+                                  {segment.text}
+                                </span>
+                          })}
                         </div>
                       ))}
                     </div>
