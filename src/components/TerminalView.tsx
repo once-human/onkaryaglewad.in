@@ -104,6 +104,8 @@ export default function TerminalView() {
     currentInputValue: '' 
   }]);
   const [activeTabId, setActiveTabId] = useState(1);
+  const [historyIndex, setHistoryIndex] = useState(-1); // -1 means not navigating
+  const [preNavigationInput, setPreNavigationInput] = useState(''); // Store input before history nav
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -124,6 +126,15 @@ export default function TerminalView() {
      <span className={USER_HOST_COLOR}>]$</span>
   </>); 
 
+  // Get only the commands from the active history for navigation
+  const commandHistory = activeHistory.filter(item => item.command !== undefined);
+
+  // Reset history index when active tab changes
+  useEffect(() => {
+    setHistoryIndex(-1);
+    setPreNavigationInput('');
+  }, [activeTabId]);
+
   // Focus input when terminal opens or active tab changes
   useEffect(() => {
     if (isTerminalOpen) {
@@ -140,34 +151,102 @@ export default function TerminalView() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    // Update currentInputValue directly for the active tab in the tabs state
-    setTabs(prevTabs => 
-      prevTabs.map(tab => 
-        tab.id === activeTabId 
-          ? { ...tab, currentInputValue: newValue } 
+    setTabs(prevTabs =>
+      prevTabs.map(tab =>
+        tab.id === activeTabId
+          ? { ...tab, currentInputValue: newValue }
           : tab
       )
     );
+    // If user types, reset history navigation
+    setHistoryIndex(-1);
+    setPreNavigationInput(''); // Clear saved input as well
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     const currentTab = tabs.find(t => t.id === activeTabId);
     if (!currentTab) return;
 
-    const currentCommand = currentTab.currentInputValue.trim();
+    const currentCommand = currentTab.currentInputValue; // Don't trim here yet
 
-    if (e.key === 'Enter' && currentCommand !== '') {
+    // --- History Navigation Logic ---
+    if (e.key === 'ArrowUp') {
       e.preventDefault();
+      if (commandHistory.length === 0) return;
 
+      let newIndex;
+      if (historyIndex === -1) { // Start navigating
+        setPreNavigationInput(currentCommand); // Save current input
+        newIndex = commandHistory.length - 1;
+      } else {
+        newIndex = Math.max(0, historyIndex - 1);
+      }
+
+      if (newIndex !== historyIndex) {
+        setHistoryIndex(newIndex);
+        const historyCommand = commandHistory[newIndex].command ?? '';
+        // Update state for consistency
+        setTabs(prevTabs =>
+          prevTabs.map(tab =>
+            tab.id === activeTabId ? { ...tab, currentInputValue: historyCommand } : tab
+          )
+        );
+        // Directly update input value for immediate feedback
+        if (inputRef.current) {
+          inputRef.current.value = historyCommand;
+          // Optional: Move cursor to end after setting value
+          setTimeout(() => inputRef.current?.setSelectionRange(historyCommand.length, historyCommand.length), 0);
+        }
+      }
+
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex === -1) return; // Not navigating, do nothing
+
+      let newIndex = historyIndex + 1;
+      let valueToSet = '';
+
+      if (newIndex < commandHistory.length) {
+        // Move down in history
+        setHistoryIndex(newIndex);
+        valueToSet = commandHistory[newIndex].command ?? '';
+      } else {
+        // Reached the end or went past, restore original input
+        setHistoryIndex(-1); // Stop navigating
+        valueToSet = preNavigationInput;
+        setPreNavigationInput(''); // Clear saved input
+      }
+
+      // Update state for consistency
+      setTabs(prevTabs =>
+        prevTabs.map(tab =>
+          tab.id === activeTabId ? { ...tab, currentInputValue: valueToSet } : tab
+        )
+      );
+      // Directly update input value for immediate feedback
+      if (inputRef.current) {
+        inputRef.current.value = valueToSet;
+        // Optional: Move cursor to end after setting value
+        setTimeout(() => inputRef.current?.setSelectionRange(valueToSet.length, valueToSet.length), 0);
+      }
+
+    } else if (e.key === 'Enter') {
+      if (currentCommand.trim() === '') return; // Ignore empty input
+      e.preventDefault();
+      setHistoryIndex(-1); // Reset history navigation on Enter
+      setPreNavigationInput(''); // Clear saved input
+
+      // --- Command Processing Logic (existing) ---
+      const trimmedCommand = currentCommand.trim();
       // 1. Create history item for the user input
       const userInputHistoryItem: HistoryItem = {
         id: Date.now(),
         prompt: promptString, // Use the raw string prompt
-        command: currentCommand,
+        command: trimmedCommand, // Use trimmed command here
       };
 
       // 2. Process the command
-      const parts = currentCommand.split(' ');
+      const parts = trimmedCommand.split(' ');
       const commandName = parts[0];
       const args = parts.slice(1);
       const commandHandler = commands[commandName];
@@ -235,8 +314,16 @@ export default function TerminalView() {
         }
       }, 0);
 
+      // Ensure input value matches cleared state if command executes
+      if (inputRef.current) {
+        inputRef.current.value = ''; 
+      }
+
+    } else {
+      // Any other key press might indicate user is typing a new command
+      // Resetting is handled primarily by handleInputChange, but good to be safe
+      // setHistoryIndex(-1); // This might interfere if user edits a history command
     }
-    // Add other key handlers later (e.g., history navigation)
   };
 
   const switchTab = (id: number) => {
