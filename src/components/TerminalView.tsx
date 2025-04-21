@@ -53,26 +53,47 @@ const VALUE_COLOR = "text-gray-200"; // Default text color
 // Structured and Colored Neofetch Output
 const neofetchOutput: OutputSegment[][] = [
   [{ text: "                   -`                  ", className: LOGO_COLOR }, { text: "onkar@arch", className: USER_HOST_COLOR }],
-  [{ text: "                  .o+`                 ", className: LOGO_COLOR }, { text: "OS", className: LABEL_COLOR }, `: ${VALUE_COLOR}Arch Linux x86_64`],
-  [{ text: "                 `ooo/                 ", className: LOGO_COLOR }, { text: "Host", className: LABEL_COLOR }, `: ${VALUE_COLOR}HP 250 G8 Notebook PC`],
-  [{ text: "                `+oooo:                ", className: LOGO_COLOR }, { text: "Kernel", className: LABEL_COLOR }, `: ${VALUE_COLOR}6.13.8-zen1-1-zen`],
-  [{ text: "               `+oooooo:               ", className: LOGO_COLOR }, { text: "Uptime", className: LABEL_COLOR }, `: ${VALUE_COLOR}1 hour, 21 mins`],
-  [{ text: "               -+oooooo+:              ", className: LOGO_COLOR }, { text: "Packages", className: LABEL_COLOR }, `: ${VALUE_COLOR}1610 (pacman), 15 (flatpak)`],
-  [{ text: "             `/:-:++oooo+:             ", className: LOGO_COLOR }, { text: "Shell", className: LABEL_COLOR }, `: ${VALUE_COLOR}zsh 5.9`],
-  [{ text: "            `/++++/+++++++:            ", className: LOGO_COLOR }, { text: "Resolution", className: LABEL_COLOR }, `: ${VALUE_COLOR}1366x768`],
-  [{ text: "           `/++++++++++++++:           ", className: LOGO_COLOR }, { text: "DE", className: LABEL_COLOR }, `: ${VALUE_COLOR}Hyprland`],
-  [{ text: "          `/+++ooooooooooooo/`         ", className: LOGO_COLOR }, { text: "Theme", className: LABEL_COLOR }, `: ${VALUE_COLOR}adw-gtk3-dark [GTK3]`],
-  [{ text: "         ./ooosssso++osssssso+`        ", className: LOGO_COLOR }, { text: "Icons", className: LABEL_COLOR }, `: ${VALUE_COLOR}Adwaita [GTK3]`],
-  [{ text: "        .oossssso-````/ossssss+`       ", className: LOGO_COLOR }, { text: "Terminal", className: LABEL_COLOR }, `: ${VALUE_COLOR}foot`],
-  [{ text: "       -osssssso.      :ssssssso.      ", className: LOGO_COLOR }, { text: "CPU", className: LABEL_COLOR }, `: ${VALUE_COLOR}11th Gen Intel i3-1115G4 (4) @ 4.100GHz`],
-  [{ text: "      :osssssss/        osssso+++.     ", className: LOGO_COLOR }, { text: "GPU", className: LABEL_COLOR }, `: ${VALUE_COLOR}Intel Tiger Lake-LP GT2 [UHD Graphics G4]`],
-  [{ text: "     /ossssssss/        +ssssooo/-     ", className: LOGO_COLOR }, { text: "Memory", className: LABEL_COLOR }, `: ${VALUE_COLOR}10337MiB / 15726MiB`],
+  [{ text: "                  .o+`                 ", className: LOGO_COLOR }, { text: "OS", className: LABEL_COLOR }, { text: ": Arch Linux x86_64", className: VALUE_COLOR }],
+  [{ text: "                 `ooo/                 ", className: LOGO_COLOR }, { text: "Host", className: LABEL_COLOR }, { text: ": HP 250 G8 Notebook PC", className: VALUE_COLOR }],
+  [{ text: "                `+oooo:                ", className: LOGO_COLOR }, { text: "Kernel", className: LABEL_COLOR }, { text: ": 6.13.8-zen1-1-zen", className: VALUE_COLOR }],
+  [{ text: "               `+oooooo:               ", className: LOGO_COLOR }, { text: "Uptime", className: LABEL_COLOR }, { text: ": 1 hour, 21 mins", className: VALUE_COLOR }],
+  [{ text: "               -+oooooo+:              ", className: LOGO_COLOR }, { text: "Packages", className: LABEL_COLOR }, { text: ": 1610 (pacman), 15 (flatpak)", className: VALUE_COLOR }],
+  [{ text: "             `/:-:++oooo+:             ", className: LOGO_COLOR }, { text: "Shell", className: LABEL_COLOR }, { text: ": zsh 5.9", className: VALUE_COLOR }],
+  [{ text: "            `/++++/+++++++:            ", className: LOGO_COLOR }, { text: "Resolution", className: LABEL_COLOR }, { text: ": 1366x768", className: VALUE_COLOR }],
+  [{ text: "           `/++++++++++++++:           ", className: LOGO_COLOR }, { text: "DE", className: LABEL_COLOR }, { text: ": Hyprland", className: VALUE_COLOR }],
+  [{ text: "          `/+++ooooooooooooo/`         ", className: LOGO_COLOR }, { text: "Theme", className: LABEL_COLOR }, { text: ": adw-gtk3-dark [GTK3]", className: VALUE_COLOR }],
+  [{ text: "         ./ooosssso++osssssso+`        ", className: LOGO_COLOR }, { text: "Icons", className: LABEL_COLOR }, { text: ": Adwaita [GTK3]", className: VALUE_COLOR }],
+  [{ text: "        .oossssso-````/ossssss+`       ", className: LOGO_COLOR }, { text: "Terminal", className: LABEL_COLOR }, { text: ": foot", className: VALUE_COLOR }],
+  [{ text: "       -osssssso.      :ssssssso.      ", className: LOGO_COLOR }, { text: "CPU", className: LABEL_COLOR }, { text: ": 11th Gen Intel i3-1115G4 (4) @ 4.100GHz", className: VALUE_COLOR }],
+  [{ text: "      :osssssss/        osssso+++.     ", className: LOGO_COLOR }, { text: "GPU", className: LABEL_COLOR }, { text: ": Intel Tiger Lake-LP GT2 [UHD Graphics G4]", className: VALUE_COLOR }],
+  [{ text: "     /ossssssss/        +ssssooo/-     ", className: LOGO_COLOR }, { text: "Memory", className: LABEL_COLOR }, { text: ": 10337MiB / 15726MiB", className: VALUE_COLOR }],
   [{ text: "   `/ossssso+/:-        -:/+osssso+-   ", className: LOGO_COLOR }],
   [{ text: "  `+sso+:-`                 `.-/+oso:  ", className: LOGO_COLOR }],
   [{ text: " `++:.                           `-/+/ ", className: LOGO_COLOR }],
   [{ text: " .`                                 `/  ", className: LOGO_COLOR }],
   [""], // Empty line
 ];
+
+// --- Command Definitions ---
+const commands: { [key: string]: (args: string[], setHistory: React.Dispatch<React.SetStateAction<HistoryItem[]>>) => OutputSegment[][] | null } = {
+  help: (args, setHistory) => [
+    [{ text: 'Available Commands:', className: 'text-green-400' }],
+    [{ text: '  help', className: 'text-blue-400' }, { text: '     - Show this help message', className: VALUE_COLOR }],
+    [{ text: '  neofetch', className: 'text-blue-400' }, { text: ' - Display system information', className: VALUE_COLOR }],
+    [{ text: '  clear', className: 'text-blue-400' }, { text: '    - Clear the terminal screen', className: VALUE_COLOR }],
+    [{ text: '  echo', className: 'text-blue-400' }, { text: '     - Print arguments to the terminal', className: VALUE_COLOR }],
+    // Add more commands here
+  ],
+  neofetch: (args, setHistory) => neofetchOutput,
+  echo: (args, setHistory) => [[{ text: args.join(' '), className: VALUE_COLOR }]],
+  clear: (args, setHistory) => {
+    // Special handling for clear: Modify history directly
+    setHistory([{ id: Date.now(), output: [ [{ text: 'Terminal cleared.', className: 'text-yellow-500' }] ] }]); // Or just setHistory([])
+    return null; // Indicate no standard output item should be added
+  },
+  // Example of unknown command handling is done in handleKeyDown
+};
+// --- End Command Definitions ---
 
 export default function TerminalView() {
   const { isTerminalOpen, toggleTerminal } = useTerminal();
@@ -130,27 +151,92 @@ export default function TerminalView() {
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    // Read value directly from active tab state for consistency
-    const currentCommand = tabs.find(t => t.id === activeTabId)?.currentInputValue ?? '';
-    if (e.key === 'Enter' && currentCommand.trim() !== '') {
+    const currentTab = tabs.find(t => t.id === activeTabId);
+    if (!currentTab) return;
+
+    const currentCommand = currentTab.currentInputValue.trim();
+
+    if (e.key === 'Enter' && currentCommand !== '') {
       e.preventDefault();
-      // Store raw prompt string in history, handle coloring during render
-      const newHistoryItem: HistoryItem = {
-        id: Date.now(), 
-        prompt: promptString,
+
+      // 1. Create history item for the user input
+      const userInputHistoryItem: HistoryItem = {
+        id: Date.now(),
+        prompt: promptString, // Use the raw string prompt
         command: currentCommand,
       };
 
-      // Update history for the active tab
-      setTabs(prevTabs => 
-        prevTabs.map(tab => 
-          tab.id === activeTabId 
-            ? { ...tab, history: [...tab.history, newHistoryItem], currentInputValue: '' } 
-            : tab
-        )
+      // 2. Process the command
+      const parts = currentCommand.split(' ');
+      const commandName = parts[0];
+      const args = parts.slice(1);
+      const commandHandler = commands[commandName];
+
+      let outputHistoryItem: HistoryItem | null = null;
+
+      // Update state function specific to the current tab
+      const setActiveTabHistory = (newHistory: HistoryItem[] | ((prevHistory: HistoryItem[]) => HistoryItem[])) => {
+         setTabs(prevTabs =>
+           prevTabs.map(tab =>
+             tab.id === activeTabId
+               ? { ...tab, history: typeof newHistory === 'function' ? newHistory(tab.history) : newHistory }
+               : tab
+           )
+         );
+      };
+
+      if (commandHandler) {
+        // Special handling for 'clear' is inside its handler
+        const outputSegments = commandHandler(args, (updater) => {
+          // Allow command to directly set history (for 'clear')
+           setTabs(prevTabs =>
+             prevTabs.map(tab =>
+               tab.id === activeTabId
+                 ? { ...tab, history: typeof updater === 'function' ? updater(tab.history) : updater, currentInputValue: '' } // Clear input on clear
+                 : tab
+             )
+           );
+        });
+
+        if (outputSegments) { // If command returned output (i.e., not 'clear')
+          outputHistoryItem = {
+            id: Date.now() + 1, // Ensure unique ID
+            output: outputSegments,
+          };
+        }
+      } else {
+        // Unknown command
+        outputHistoryItem = {
+          id: Date.now() + 1,
+          output: [[{ text: `zsh: command not found: ${commandName}`, className: 'text-red-500' }]],
+        };
+      }
+
+      // 3. Update history for the active tab
+      setTabs(prevTabs =>
+        prevTabs.map(tab => {
+          if (tab.id === activeTabId) {
+             const newHistory = [...tab.history, userInputHistoryItem];
+             if (outputHistoryItem) { // Add output item if it exists
+               newHistory.push(outputHistoryItem);
+             }
+             return { ...tab, history: newHistory, currentInputValue: '' }; // Clear input value
+          }
+          return tab;
+        })
       );
+
+      // 4. Refocus the input field and scroll to bottom
+      // Use setTimeout to ensure focus/scroll happens after the state update and re-render
+      setTimeout(() => {
+        inputRef.current?.focus();
+        if (bodyRef.current) {
+          bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+        }
+      }, 0);
+
     }
-    // Add other key handlers later
+    // Add other key handlers later (e.g., history navigation)
   };
 
   const switchTab = (id: number) => {
@@ -300,10 +386,10 @@ export default function TerminalView() {
             >
               {/* Updated History Rendering */} 
               {activeHistory.map(item => (
-                <div key={item.id} className="flex flex-wrap"> {/* Use flex-wrap for safety */} 
+                <div key={item.id} className="flex flex-wrap mb-1"> {/* Added mb-1 */}
                   {item.output ? (
                     // Render structured output lines
-                    <div className="w-full whitespace-pre-wrap mb-1">
+                    <div className="w-full whitespace-pre-wrap"> {/* Removed mb-1 from here */}
                       {item.output.map((line, lineIndex) => (
                         <div key={lineIndex}>
                           {line.map((segment, segIndex) => 
@@ -315,20 +401,18 @@ export default function TerminalView() {
                       ))}
                     </div>
                   ) : item.prompt && item.command !== undefined ? (
-                     // Render user command line with colored prompt
-                    <>
-                      <span className={USER_HOST_COLOR}>[{username}@{hostname}</span>
-                      <span className="text-purple-400 px-1">{currentDir}</span>
-                      <span className={USER_HOST_COLOR}>]$</span>
+                     // Render user command line (using promptPrefix for consistent coloring)
+                    <div className="w-full flex"> {/* Wrap prompt/command in a div */}
+                      {promptPrefix}
                       <span className="ml-2 text-gray-200 break-words flex-1">{item.command}</span>
-                    </>
+                    </div>
                   ) : null}
                 </div>
               ))}
 
               {/* Current Input Line */} 
-              <div className="mt-1 flex items-center">
-                {promptPrefix} { /* Use the colored prompt prefix */}
+              <div className="flex items-center"> {/* Removed mt-1 */}
+                <span className="flex-shrink-0">{promptPrefix}</span> {/* Wrap prompt, prevent shrinking */}
                 <input 
                   ref={inputRef}
                   type="text"
