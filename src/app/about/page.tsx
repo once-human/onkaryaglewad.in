@@ -23,7 +23,7 @@ const Acquainted = () => {
         title="About Me"
         subTitle="Get to know me a little better."
       />
-      <div className="mt-8 flex flex-col md:flex-row md:justify-center md:items-start gap-8 md:gap-x-12 lg:gap-x-16 md:px-6 lg:px-10 xl:px-14">
+      <div className="mt-8 flex flex-col md:flex-row md:justify-center md:items-center gap-8 md:gap-x-12 lg:gap-x-16 md:px-6 lg:px-10 xl:px-14">
         <div className="w-full md:w-[50%]">
           <div className="text-justify space-y-4 text-foreground/90 leading-relaxed">
             <p>

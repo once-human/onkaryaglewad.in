@@ -442,9 +442,10 @@ const SkillsGraph: React.FC = () => {
   }, []); // Run once on mount
 
   return (
-    <div 
-      ref={containerRef} // Restore ref for dimension calculation
-      className="w-full h-full overflow-hidden rounded-lg border border-gray-800 bg-[#202023] flex items-center justify-center text-foreground/50"
+    <div
+      ref={containerRef}
+      // Darker background, even subtler border for seamless look
+      className="w-full h-full overflow-hidden rounded-lg border border-gray-900 bg-[#1A1A1D] flex items-center justify-center text-foreground/50"
     >
       {dimensions.width > 0 && dimensions.height > 0 ? (
         <ForceGraph2D<NodeData, LinkData>
@@ -470,7 +471,7 @@ const SkillsGraph: React.FC = () => {
           onEngineTick={handleEngineTick}
         />
       ) : (
-        <span>Loading Graph...</span>
+        <span className="text-sm">Loading Graph...</span> // Adjusted loading text slightly
       )}
     </div>
   );
