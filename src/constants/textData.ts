@@ -8,6 +8,12 @@ import {
   ConnectPageData,
   SkillsPageData,
 } from "@/types/interfaces";
+import {
+  FaLinkedin,
+  FaGithub,
+  FaEnvelope,
+  FaTelegram
+} from "react-icons/fa6";
 
 const aboutPageData: AboutPageData = {
   title: {
@@ -1027,28 +1033,28 @@ const connectPageData: ConnectPageData = {
       icon: "github",
     },
     {
+      title: "Instagram",
+      link: "https://www.instagram.com/yaglewad_onkar/",
+      handler: "@yaglewad_onkar",
+      icon: "instagram",
+    },
+    {
+      title: "Email (VIA)",
+      link: "mailto:onkar@viarides.in",
+      handler: "onkar@viarides.in",
+      icon: "email",
+    },
+    {
       title: "LinkedIn",
       link: WebLinks.linkedin,
-      handler: "in/yaglewad-onkar",
+      handler: "yaglewad-onkar",
       icon: "linkedin",
     },
     {
-      title: "X (Twitter)",
-      link: WebLinks.xtwitter,
-      handler: "",
-      icon: "xtwitter",
-    },
-    {
-      title: "YouTube",
-      link: WebLinks.youtube,
-      handler: "",
-      icon: "youtube",
-    },
-    {
-      title: "Instagram",
-      link: WebLinks.instagram,
-      handler: "yaglewad_onkar",
-      icon: "instagram",
+      title: "Telegram",
+      link: "https://t.me/oncehuman7",
+      handler: "@oncehuman7",
+      icon: "telegram",
     },
   ],
 
@@ -1173,6 +1179,13 @@ const textData = {
   mediaPageData,
   connectPageData,
   skillsPageData,
+  socialLinks: [
+    { name: "LinkedIn", icon: FaLinkedin, link: "https://www.linkedin.com/in/onkar-yaglewad" },
+    { name: "GitHub", icon: FaGithub, link: "https://github.com/once-human" },
+    { name: "Email (Secondary)", icon: FaEnvelope, link: "mailto:onkar@viarides.in" },
+    { name: "Telegram", icon: FaTelegram, link: "https://t.me/oncehuman7" },
+    { name: "Email", icon: FaEnvelope, link: "mailto:contact@onkaryaglewad.in" },
+  ],
 };
 
 export default textData;
