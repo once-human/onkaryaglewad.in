@@ -98,7 +98,7 @@ const aboutPageData: AboutPageData = {
   },
   subtitle: {
     acquainted:
-      "Hover over the graph nodes to highlight related paragraphs.",
+      "Get to know me a little better.",
     achievements:
       "Technical and non-technical milestones that changed my life.",
     testimonials:
