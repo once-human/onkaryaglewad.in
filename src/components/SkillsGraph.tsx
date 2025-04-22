@@ -124,17 +124,17 @@ const SkillsGraph: React.FC = () => {
   }, [hoverNode]);
 
   // Interpolation functions
-  const lerp = (current: number, target: number, factor: number): number => {
+  const lerp = useCallback((current: number, target: number, factor: number): number => {
     return current + (target - current) * factor;
-  };
+  }, []); 
 
-  const lerpRGB = (current: [number, number, number], target: [number, number, number], factor: number): [number, number, number] => {
+  const lerpRGB = useCallback((current: [number, number, number], target: [number, number, number], factor: number): [number, number, number] => {
     return [
         lerp(current[0], target[0], factor),
         lerp(current[1], target[1], factor),
         lerp(current[2], target[2], factor)
     ];
-  };
+  }, [lerp]); // Depends on lerp
 
   // Engine tick effect for animation updates - CORRECTED LOGIC
   const handleEngineTick = useCallback(() => {
@@ -222,7 +222,7 @@ const SkillsGraph: React.FC = () => {
         }
     });
 
-  }, [hoverNode, highlightNodes, highlightLinks]); 
+  }, [hoverNode, highlightNodes, highlightLinks, lerp, lerpRGB]); 
 
   // Node painting using interpolated values
   const nodePaint = useCallback((node: FGNodeObject<NodeData>, ctx: CanvasRenderingContext2D, globalScale: number) => {
