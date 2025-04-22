@@ -4,17 +4,36 @@ import { TimelineItem } from "@/components/TimeLine";
 import textData from "@/constants/textData";
 
 const Acquainted = () => {
+  // Store the specific text provided by the user, removing the leading "AboutAbout\n\n"
+  const introText = `Hey, I'm Onkar Yaglewad.
+
+I started coding when I was 12, figuring out how to turn my sister's Android app project into a working tourism website. It was clunky, confusing, and full of trial and error but that messy process is what made me fall in love with tech.
+
+Over the years, I've built things like a social platform that reached over 3K active users. I've also scrapped projects that never made it past a few commits. Both experiences taught me in different ways.
+
+I use Arch Linux as my daily driver, not for the badge, but because I enjoy understanding what's under the hood and fixing things when they go wrong. That mindset extends to how I approach code, systems, and life in general.
+
+Lately, I've been diving deeper into FOSS, exploring the structures that shape the digital world and the ways we can make them better. I'm always up for building, collaborating, and figuring things out along the way.
+
+Right now, I'm working on VIA - a subscription-based ride-sharing app. Can't share too much publicly yet, but if it sounds interesting and you think you can help us out in any way, feel free to reach out. Maybe we'll end up building something crazy together.
+
+I love building things. If you've got an idea, want a second brain, or just need someone to bounce thoughts off, just hit me up, as long as it's not spam, I'll always reply :p`;
+
   return (
     <section id="acquainted">
       <SectionTitle
-        title={textData.aboutPageData.title.acquainted}
-        subTitle={textData.aboutPageData.subtitle.acquainted}
+        title="About Me"
+        subTitle="Get to know me a little better."
       />
-      <div className="mt-16 grid grid-cols-1 md:grid-cols-2 sm:grid-row-2 gap-4 md:gap-6">
-        <ItemCards.tileCard
-          title="Introduction"
-          description={textData.aboutPageData.itemCardDescription.introduction}
-        />
+      {/* Section 1: Full-width Introduction Text */}
+      <div className="mt-8 text-foreground/80 max-w-4xl mx-auto"> {/* Constrain width slightly for readability */}
+        {introText.split('\n\n').map((paragraph, index) => (
+          paragraph.trim() && <p key={index} className="mb-4 text-left leading-relaxed">{paragraph.trim()}</p> // Use text-left
+        ))}
+      </div>
+
+      {/* Section 2: Grid of Detail Cards */}
+      <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"> {/* 3-column grid for cards */}
         <ItemCards.tileCard
           title="Background"
           description={textData.aboutPageData.itemCardDescription.background}
