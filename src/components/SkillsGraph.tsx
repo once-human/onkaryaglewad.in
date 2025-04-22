@@ -9,33 +9,132 @@ import ForceGraph2D, { ForceGraphProps, NodeObject as FGNodeObject, LinkObject a
 interface NodeData { name: string; val?: number; }
 interface LinkData {}
 
-// Restore actual graph data derived from intro text
+// Define graph data - Expanded based on user profile
 const graphData = {
   nodes: [
-    { id: "coding", name: "Coding", val: 10 },
-    { id: "webdev", name: "Web Dev", val: 8 },
-    { id: "problemsolving", name: "Problem Solving", val: 8 },
-    { id: "arch", name: "Arch Linux", val: 6 },
-    { id: "systems", name: "Systems Thinking", val: 8 },
-    { id: "foss", name: "FOSS", val: 9 },
-    { id: "building", name: "Building Projects", val: 10 },
-    { id: "collaboration", name: "Collaboration", val: 7 },
-    { id: "via", name: "VIA App", val: 5 },
-    { id: "learning", name: "Learning", val: 9 }
+    // Core Themes (Higher val)
+    { id: "coding", name: "Coding", val: 12 },
+    { id: "building", name: "Building Projects", val: 11 },
+    { id: "learning", name: "Continuous Learning", val: 10 },
+    { id: "webdev", name: "Web Development", val: 10 },
+    { id: "problemsolving", name: "Problem Solving", val: 9 },
+    { id: "systems", name: "Systems Thinking", val: 9 },
+    { id: "foss", name: "FOSS", val: 8 },
+    { id: "collaboration", name: "Collaboration", val: 8 },
+
+    // Specific Skills/Areas (Medium val)
+    { id: "javascript", name: "JavaScript/TS", val: 7 },
+    { id: "react", name: "React", val: 7 },
+    { id: "nextjs", name: "Next.js", val: 7 },
+    { id: "frontend", name: "Frontend Dev", val: 6 },
+    { id: "backend", name: "Backend Dev", val: 5 }, // Implied
+    { id: "apis", name: "APIs", val: 5 }, // Implied
+    { id: "databases", name: "Databases", val: 4 }, // Implied
+    { id: "git", name: "Git/Version Control", val: 6 },
+    { id: "debugging", name: "Debugging", val: 6 },
+    { id: "testing", name: "Testing", val: 4 }, // Less emphasis in text, but important
+    { id: "deployment", name: "Deployment", val: 4 }, // Implied by projects
+    { id: "uiux", name: "UI/UX Awareness", val: 5 }, // Implied by desire for good experiences
+    { id: "projectmanagement", name: "Project Management", val: 5 }, // Implied by building
+
+    // Tools/Environments (Medium val)
+    { id: "arch", name: "Arch Linux", val: 7 },
+    { id: "linux", name: "Linux Ecosystem", val: 6 },
+    { id: "cli", name: "Command Line", val: 6 },
+
+    // Specific Projects/Experiences (Medium val)
+    { id: "earlywebsite", name: "Early Website Project", val: 5 },
+    { id: "socialplatform", name: "Social Platform (3K+ Users)", val: 6 },
+    { id: "viaapp", name: "VIA App (Current)", val: 7 },
+    { id: "scrappedprojects", name: "Scrapped Projects", val: 4 }, // Learning experience
+
+    // Concepts/Mindsets (Lower/Medium val)
+    { id: "understanding", name: "Understanding Internals", val: 6 },
+    { id: "fixingthings", name: "Fixing Things", val: 6 },
+    { id: "trialerror", name: "Trial & Error", val: 5 },
+    { id: "opensource", name: "Open Source Contrib.", val: 4 }, // Exploration phase
+    { id: "communication", name: "Communication", val: 5 },
+    { id: "ideation", name: "Ideation", val: 5 },
+    { id: "resilience", name: "Resilience", val: 4 },
+    { id: "curiosity", name: "Curiosity", val: 6 },
   ],
   links: [
+    // Core Connections
+    { source: "coding", target: "building" },
     { source: "coding", target: "webdev" },
-    { source: "webdev", target: "building" },
-    { source: "building", target: "via" },
+    { source: "coding", target: "problemsolving" },
     { source: "coding", target: "learning" },
-    { source: "learning", target: "building" },
-    { source: "arch", target: "systems" },
-    { source: "arch", target: "problemsolving" },
-    { source: "systems", target: "problemsolving" },
-    { source: "systems", target: "foss" },
-    { source: "foss", target: "building" },
+    { source: "building", target: "learning" },
+    { source: "building", target: "collaboration" },
+    { source: "building", target: "projectmanagement" },
+    { source: "learning", target: "problemsolving" },
+    { source: "learning", target: "curiosity" },
+    { source: "problemsolving", target: "debugging" },
+    { source: "problemsolving", target: "systems" },
+    { source: "systems", target: "understanding" },
+    { source: "systems", target: "fixingthings" },
+    { source: "collaboration", target: "communication" },
+
+    // Web Dev Cluster
+    { source: "webdev", target: "frontend" },
+    { source: "webdev", target: "backend" },
+    { source: "webdev", target: "javascript" },
+    { source: "frontend", target: "react" },
+    { source: "frontend", target: "uiux" },
+    { source: "react", target: "nextjs" },
+    { source: "javascript", target: "react" },
+    { source: "javascript", target: "backend" }, // Assumed Node.js or similar
+    { source: "backend", target: "apis" },
+    { source: "backend", target: "databases" },
+    { source: "apis", target: "databases" },
+
+    // General Dev Practices
+    { source: "coding", target: "git" },
+    { source: "building", target: "git" },
+    { source: "coding", target: "debugging" },
+    { source: "building", target: "testing" },
+    { source: "building", target: "deployment" },
+
+    // Linux/Systems Cluster
+    { source: "arch", target: "linux" },
+    { source: "arch", target: "cli" },
+    { source: "arch", target: "understanding" },
+    { source: "arch", target: "fixingthings" },
+    { source: "linux", target: "cli" },
+    { source: "linux", target: "systems" },
+    { source: "understanding", target: "debugging" },
+
+    // FOSS Cluster
+    { source: "foss", target: "linux" },
     { source: "foss", target: "collaboration" },
-    { source: "building", target: "collaboration" }
+    { source: "foss", target: "opensource" },
+    { source: "foss", target: "understanding" }, // Understanding structures
+
+    // Projects/Experiences
+    { source: "earlywebsite", target: "coding" },
+    { source: "earlywebsite", target: "webdev" },
+    { source: "earlywebsite", target: "trialerror" },
+    { source: "socialplatform", target: "building" },
+    { source: "socialplatform", target: "webdev" },
+    { source: "socialplatform", target: "collaboration" },
+    { source: "socialplatform", target: "deployment" }, // Reached users
+    { source: "viaapp", target: "building" },
+    { source: "viaapp", target: "webdev" }, // Assuming web components or backend
+    { source: "viaapp", target: "collaboration" },
+    { source: "viaapp", target: "apis" }, // Likely involved
+    { source: "viaapp", target: "databases" }, // Likely involved
+    { source: "scrappedprojects", target: "building" },
+    { source: "scrappedprojects", target: "learning" },
+    { source: "scrappedprojects", target: "resilience" },
+    { source: "scrappedprojects", target: "trialerror" },
+
+    // Mindsets/Concepts
+    { source: "trialerror", target: "learning" },
+    { source: "fixingthings", target: "problemsolving" },
+    { source: "communication", target: "ideation" },
+    { source: "curiosity", target: "understanding" },
+    { source: "ideation", target: "building" },
+
   ]
 };
 
@@ -78,6 +177,8 @@ const SkillsGraph: React.FC = () => {
 
   const nodeAnimationState = useRef<Map<string, NodeAnimState>>(new Map());
   const linkAnimationState = useRef<Map<FGLinkObject<NodeData, LinkData>, LinkAnimState>>(new Map());
+
+  const graphRef = useRef<any>(); // Ref to access graph instance methods
 
   // Dimension effect (unchanged)
   useEffect(() => {
@@ -297,17 +398,61 @@ const SkillsGraph: React.FC = () => {
     return animState.width; 
   }, []);
 
+  // Effect to modify forces via ref - Use 'any' for types
+  useEffect(() => {
+    if (graphRef.current) {
+      // Charge force
+      const chargeForce = graphRef.current.d3Force('charge') as any;
+      if (chargeForce) {
+          chargeForce.strength(-300);
+      }
+
+      // Link force
+      const linkForce = graphRef.current.d3Force('link') as any;
+      if (linkForce) {
+          linkForce.distance(60).strength(0.05);
+      }
+
+      // Add collision force - Define collisionRadius function
+      const collisionRadius = (node: FGNodeObject<NodeData>) => {
+           const baseRadius = Math.sqrt(Math.max(0, node.val || 1)) * BASE_NODE_RADIUS_SCALE;
+           return baseRadius * 1.2; // Includes buffer
+      };
+      // Attempt to add collide force by name, passing the radius function
+      // This relies on the library exposing d3.forceCollide internally when passed this name
+      // Note: The underlying d3.forceCollide().radius(...) expects the function.
+      // Casting the force modification function to 'any' to bypass TS checks.
+      try {
+        const forceCollide = (graphRef.current.d3Force('collide', collisionRadius) as any);
+        if (forceCollide) { 
+            // Attempt to set strength if the force object is returned and has a strength method
+            if (typeof forceCollide.strength === 'function') {
+                 forceCollide.strength(0.8); 
+            }
+        } else {
+            console.warn("Could not get or set collide force by name.");
+        }
+      } catch (error) {
+          console.error("Error setting collide force:", error);
+          // Fallback or further handling might be needed
+      }
+
+      graphRef.current.d3ReheatSimulation();
+    }
+  }, []); // Run once on mount
+
   return (
     <div 
       ref={containerRef} // Restore ref for dimension calculation
-      className="w-full h-full overflow-hidden rounded-lg border border-gray-700 bg-[#202023] flex items-center justify-center text-foreground/50"
+      className="w-full h-full overflow-hidden rounded-lg border border-gray-800 bg-[#202023] flex items-center justify-center text-foreground/50"
     >
       {dimensions.width > 0 && dimensions.height > 0 ? (
         <ForceGraph2D<NodeData, LinkData>
+          ref={graphRef} // Assign ref to the graph component
           graphData={graphData} // Restore actual data
           width={dimensions.width} // Restore dynamic dimensions
           height={dimensions.height}
-          backgroundColor={OBSIDIAN_BG}
+          backgroundColor="transparent"
           nodeRelSize={1}
           nodeCanvasObject={nodePaint} // Restore detailed paint function
           nodePointerAreaPaint={nodePointerAreaPaint} // Add the hover area painting
@@ -315,21 +460,13 @@ const SkillsGraph: React.FC = () => {
           linkColor={linkColor} // Restore link styling callback
           linkWidth={linkWidth} // Restore link styling callback
           linkDirectionalParticles={0}
-          // Keep physics running for smoother interactions
-          cooldownTicks={Infinity} 
-          // Adjust physics parameters for smoother feel
-          d3AlphaDecay={0.015} // Slower cooling 
-          d3VelocityDecay={0.55} // Increased friction/damping
-          warmupTicks={100} // Ensure sufficient warmup
-          onNodeDrag={node => { /* Removed log */ }}
-          onNodeDragEnd={node => { 
-            // Removed logs
-            if (node) {
-              node.fx = node.x; // Keep fixing position after drag
-              node.fy = node.y;
-            }
+          cooldownTicks={Infinity}
+          warmupTicks={350} // Keep increased warmup ticks
+          d3AlphaDecay={0.015}
+          d3VelocityDecay={0.55}
+          onNodeDragEnd={node => {
+            if (node) { node.fx = node.x; node.fy = node.y; }
           }}
-          // Add the engine tick handler
           onEngineTick={handleEngineTick}
         />
       ) : (
