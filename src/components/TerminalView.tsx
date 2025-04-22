@@ -151,10 +151,10 @@ export default function TerminalView() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setTabs(prevTabs =>
-      prevTabs.map(tab =>
-        tab.id === activeTabId
-          ? { ...tab, currentInputValue: newValue }
+    setTabs(prevTabs => 
+      prevTabs.map(tab => 
+        tab.id === activeTabId 
+          ? { ...tab, currentInputValue: newValue } 
           : tab
       )
     );
@@ -240,7 +240,7 @@ export default function TerminalView() {
       const trimmedCommand = currentCommand.trim();
       // 1. Create history item for the user input
       const userInputHistoryItem: HistoryItem = {
-        id: Date.now(),
+        id: Date.now(), 
         prompt: promptString, // Use the raw string prompt
         command: trimmedCommand, // Use trimmed command here
       };
@@ -268,13 +268,13 @@ export default function TerminalView() {
         // Special handling for 'clear' is inside its handler
         const outputSegments = commandHandler(args, (updater) => {
           // Allow command to directly set history (for 'clear')
-           setTabs(prevTabs =>
-             prevTabs.map(tab =>
-               tab.id === activeTabId
+      setTabs(prevTabs => 
+        prevTabs.map(tab => 
+          tab.id === activeTabId 
                  ? { ...tab, history: typeof updater === 'function' ? updater(tab.history) : updater, currentInputValue: '' } // Clear input on clear
-                 : tab
-             )
-           );
+            : tab
+        )
+      );
         });
 
         if (outputSegments) { // If command returned output (i.e., not 'clear')

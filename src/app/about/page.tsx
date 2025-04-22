@@ -2,6 +2,7 @@ import ItemCards from "@/components/ItemCards";
 import SectionTitle from "@/components/SectionTitle";
 import { TimelineItem } from "@/components/TimeLine";
 import textData from "@/constants/textData";
+import SkillsGraph from "@/components/SkillsGraph";
 
 const Acquainted = () => {
   // Store the specific text provided by the user, removing the leading "AboutAbout\n\n"
@@ -25,30 +26,65 @@ I love building things. If you've got an idea, want a second brain, or just need
         title="About Me"
         subTitle="Get to know me a little better."
       />
-      {/* Section 1: Full-width Introduction Text */}
-      <div className="mt-8 text-foreground/80 max-w-4xl mx-auto"> {/* Constrain width slightly for readability */}
-        {introText.split('\n\n').map((paragraph, index) => (
-          paragraph.trim() && <p key={index} className="mb-4 text-left leading-relaxed">{paragraph.trim()}</p> // Use text-left
-        ))}
+      {/* Two-column layout: Intro Text (Left 70%) + Graph (Right 30%) */}
+      <div className="mt-8 flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+        
+        {/* Left Column (Intro Text - 70% on md+) */}
+        <div className="w-full md:w-[70%] text-foreground/80 order-1 md:order-none">
+          {/* Render the introduction text split into paragraphs, justified, with name highlighted */}
+          {introText.split('\n\n').map((paragraph, index) => {
+            const trimmedParagraph = paragraph.trim();
+            if (!trimmedParagraph) return null;
+
+            if (index === 0) {
+              // Special handling for the first paragraph to highlight the name
+              const name = "Onkar Yaglewad";
+              const parts = trimmedParagraph.split(name);
+              return (
+                <p key={index} className="mb-4 text-justify leading-relaxed">
+                  {parts[0]}
+                  <span className="font-semibold text-foreground">{name}</span>
+                  {parts[1]}
+                </p>
+              );
+            } else {
+              // Render other paragraphs normally
+              return (
+                <p key={index} className="mb-4 text-justify leading-relaxed">{trimmedParagraph}</p> // Use text-justify
+              );
+            }
+          })}
+        </div>
+
+        {/* Right Column (Graph - 30% on md+) */}
+        {/* Restore fixed height */} 
+        <div className="w-full md:w-[30%] h-96 md:h-[600px] order-none md:order-1"> {/* Restore fixed height */}
+          <SkillsGraph />
+        </div>
+
       </div>
 
-      {/* Section 2: Grid of Detail Cards */}
-      <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6"> {/* 3-column grid for cards */}
-        <ItemCards.tileCard
-          title="Background"
-          description={textData.aboutPageData.itemCardDescription.background}
-          listItems={textData.aboutPageData.itemCardList.backgroundList}
-        />
-        <ItemCards.tileCard
-          title="Goals"
-          description={textData.aboutPageData.itemCardDescription.goals}
-          listItems={textData.aboutPageData.itemCardList.goalsList}
-        />
-        <ItemCards.tileCard
-          title="Interests"
-          description={textData.aboutPageData.itemCardDescription.interests}
-          listItems={textData.aboutPageData.itemCardList.interestsList}
-        />
+      {/* Detail Cards Section (Below Graph/Intro) */}
+      <div className="mt-16">
+         <SectionTitle title="Details" subTitle="Background, goals, and interests." />
+         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          {/* Background, Goals, Interests cards remain here */}
+           <ItemCards.tileCard
+            title="Background"
+            description={textData.aboutPageData.itemCardDescription.background}
+            listItems={textData.aboutPageData.itemCardList.backgroundList}
+          />
+          <ItemCards.tileCard
+            title="Goals"
+            description={textData.aboutPageData.itemCardDescription.goals}
+            listItems={textData.aboutPageData.itemCardList.goalsList}
+          />
+          <ItemCards.tileCard
+            title="Interests"
+            description={textData.aboutPageData.itemCardDescription.interests}
+            listItems={textData.aboutPageData.itemCardList.interestsList}
+          />
+        </div>
       </div>
     </section>
   );
