@@ -9,13 +9,14 @@ export interface AboutPageData {
     achievements: string;
     testimonials: string;
   };
-  itemCardDescription: {
-    introduction: string;
-    background: string;
-    goals: string;
-    interests: string;
+  introductionSegments?: TextSegment[];
+  itemCardDescription?: {
+    introduction?: string;
+    background?: string;
+    goals?: string;
+    interests?: string;
   };
-  itemCardList: {
+  itemCardList?: {
     backgroundList?: Array<{
       icon: string;
       title: string;
@@ -130,6 +131,7 @@ export interface ExperiencePageData {
     link: string;
   }>;
 }
+
 export interface MediaPageData {
   title: {
     events: string;
@@ -161,6 +163,7 @@ export interface MediaPageData {
     handler: string;
   }>;
 }
+
 export interface ConnectPageData {
   title: string;
   subtitle: string;
@@ -211,4 +214,32 @@ export interface FormData {
   email: string;
   subject: string;
   message: string;
+}
+
+// Define the structure for a text segment used in About page intro
+export interface TextSegment {
+  id: string;
+  text: string;
+}
+
+// Define the structure for graph nodes (adjust based on react-force-graph types if needed)
+export interface NodeObject {
+  id: string; // Ensure ID is consistently treated as string
+  name: string;
+  val?: number;
+  textSegmentId?: string; // Link to intro text segment
+  // Add other properties from react-force-graph if used directly, e.g., x, y, vx, vy
+}
+
+// Define the structure for graph links (adjust based on react-force-graph types)
+export interface LinkObject {
+  source: string | NodeObject; // Can be ID string or node object
+  target: string | NodeObject; // Can be ID string or node object
+  // Add other properties from react-force-graph if used directly
+}
+
+// Define the overall structure for graph data
+export interface GraphData {
+  nodes: NodeObject[];
+  links: LinkObject[];
 }

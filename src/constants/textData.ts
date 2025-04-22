@@ -7,6 +7,8 @@ import {
   MediaPageData,
   ConnectPageData,
   SkillsPageData,
+  GraphData,
+  TextSegment,
 } from "@/types/interfaces";
 import {
   FaLinkedin,
@@ -14,6 +16,79 @@ import {
   FaEnvelope,
   FaTelegram
 } from "react-icons/fa6";
+
+const aboutPageGraphData: GraphData = {
+  nodes: [
+    { id: "coding", name: "Coding", val: 12, textSegmentId: "para-2" },
+    { id: "webdev", name: "Web Development", val: 10, textSegmentId: "para-2" },
+    { id: "earlywebsite", name: "Early Website Project", val: 5, textSegmentId: "para-2" },
+    { id: "trialerror", name: "Trial & Error", val: 5, textSegmentId: "para-2" },
+    { id: "building", name: "Building Projects", val: 11, textSegmentId: "para-3" },
+    { id: "socialplatform", name: "Social Platform (3K+ Users)", val: 6, textSegmentId: "para-3" },
+    { id: "scrappedprojects", name: "Scrapped Projects", val: 4, textSegmentId: "para-3" },
+    { id: "learning", name: "Continuous Learning", val: 10, textSegmentId: "para-3" },
+    { id: "arch", name: "Arch Linux", val: 7, textSegmentId: "para-4" },
+    { id: "linux", name: "Linux Ecosystem", val: 6, textSegmentId: "para-4" },
+    { id: "understanding", name: "Understanding Internals", val: 6, textSegmentId: "para-4" },
+    { id: "fixingthings", name: "Fixing Things", val: 6, textSegmentId: "para-4" },
+    { id: "systems", name: "Systems Thinking", val: 9, textSegmentId: "para-4" },
+    { id: "debugging", name: "Debugging", val: 6, textSegmentId: "para-4" },
+    { id: "problemsolving", name: "Problem Solving", val: 9, textSegmentId: "para-4" },
+    { id: "foss", name: "FOSS", val: 8, textSegmentId: "para-5" },
+    { id: "opensource", name: "Open Source Contrib.", val: 4, textSegmentId: "para-5" },
+    { id: "collaboration", name: "Collaboration", val: 8, textSegmentId: "para-5" },
+    { id: "viaapp", name: "VIA App (Current)", val: 7, textSegmentId: "para-6" },
+    { id: "apis", name: "APIs", val: 5, textSegmentId: "para-6" },
+    { id: "databases", name: "Databases", val: 4, textSegmentId: "para-6" },
+    { id: "ideation", name: "Ideation", val: 5, textSegmentId: "para-7" },
+    { id: "communication", name: "Communication", val: 5, textSegmentId: "para-7" },
+    { id: "resilience", name: "Resilience", val: 4 },
+  ],
+  links: [
+    { source: "coding", target: "building" },
+    { source: "coding", target: "webdev" },
+    { source: "coding", target: "problemsolving" },
+    { source: "coding", target: "learning" },
+    { source: "building", target: "learning" },
+    { source: "building", target: "collaboration" },
+    { source: "learning", target: "problemsolving" },
+    { source: "problemsolving", target: "debugging" },
+    { source: "problemsolving", target: "systems" },
+    { source: "systems", target: "understanding" },
+    { source: "systems", target: "fixingthings" },
+    { source: "collaboration", target: "communication" },
+    { source: "webdev", target: "webdev" },
+    { source: "webdev", target: "debugging" },
+    { source: "apis", target: "databases" },
+    { source: "arch", target: "linux" },
+    { source: "arch", target: "understanding" },
+    { source: "arch", target: "fixingthings" },
+    { source: "linux", target: "systems" },
+    { source: "understanding", target: "debugging" },
+    { source: "foss", target: "linux" },
+    { source: "foss", target: "collaboration" },
+    { source: "foss", target: "opensource" },
+    { source: "foss", target: "understanding" },
+    { source: "earlywebsite", target: "coding" },
+    { source: "earlywebsite", target: "webdev" },
+    { source: "earlywebsite", target: "trialerror" },
+    { source: "socialplatform", target: "building" },
+    { source: "socialplatform", target: "webdev" },
+    { source: "socialplatform", target: "collaboration" },
+    { source: "viaapp", target: "building" },
+    { source: "viaapp", target: "collaboration" },
+    { source: "viaapp", target: "apis" },
+    { source: "viaapp", target: "databases" },
+    { source: "scrappedprojects", target: "building" },
+    { source: "scrappedprojects", target: "learning" },
+    { source: "scrappedprojects", target: "resilience" },
+    { source: "scrappedprojects", target: "trialerror" },
+    { source: "trialerror", target: "learning" },
+    { source: "fixingthings", target: "problemsolving" },
+    { source: "communication", target: "ideation" },
+    { source: "ideation", target: "building" },
+  ]
+};
 
 const aboutPageData: AboutPageData = {
   title: {
@@ -23,20 +98,22 @@ const aboutPageData: AboutPageData = {
   },
   subtitle: {
     acquainted:
-      "This is a brief overview about my background, goals, and interests.",
+      "Hover over the graph nodes to highlight related paragraphs.",
     achievements:
       "Technical and non-technical milestones that changed my life.",
     testimonials:
       "Insights and experiences shared by colleagues, mentors, and collaborators.",
   },
 
-  itemCardDescription: {
-    introduction:
-      "Hi everyone! I'm a B.Tech CSE student at DYPIU, Pune. I'm passionate about web development and software development, with experience in building responsive websites and applications. I've worked on various projects including MahaDarshan (a tourism website), Drip Limitless (a social networking platform), and Norse Music (a streaming web app). I enjoy solving problems through code and continuously learning new technologies to enhance my skills.",
-    background: "These are some intriguing facts about my personal details.",
-    goals: "I've set these main goals for my career development.",
-    interests: "I'm passionate about these activities and hobbies.",
-  },
+  introductionSegments: [
+    { id: "para-1", text: "Hey, I'm Onkar Yaglewad." },
+    { id: "para-2", text: "I started coding when I was 12, figuring out how to turn my sister's Android app project into a working tourism website. It was clunky, confusing, and full of trial and error but that messy process is what made me fall in love with tech." },
+    { id: "para-3", text: "Over the years, I've built things like a social platform that reached over 3K active users. I've also scrapped projects that never made it past a few commits. Both experiences taught me in different ways." },
+    { id: "para-4", text: "I use Arch Linux as my daily driver, not for the badge, but because I enjoy understanding what's under the hood and fixing things when they go wrong. That mindset extends to how I approach code, systems, and life in general." },
+    { id: "para-5", text: "Lately, I've been diving deeper into FOSS, exploring the structures that shape the digital world and the ways we can make them better. I'm always up for building, collaborating, and figuring things out along the way." },
+    { id: "para-6", text: "Right now, I'm working on VIA - a subscription-based ride-sharing app. Can't share too much publicly yet, but if it sounds interesting and you think you can help us out in any way, feel free to reach out. Maybe we'll end up building something crazy together." },
+    { id: "para-7", text: "I love building things. If you've got an idea, want a second brain, or just need someone to bounce thoughts off, just hit me up, as long as it's not spam, I'll always reply :p" }
+  ],
 
   itemCardList: {
     backgroundList: [
@@ -1174,6 +1251,7 @@ const skillsPageData: SkillsPageData = {
 
 const textData = {
   aboutPageData,
+  aboutPageGraphData,
   educationPageData,
   experiencePageData,
   mediaPageData,
