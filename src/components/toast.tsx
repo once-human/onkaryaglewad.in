@@ -34,10 +34,10 @@ export function toastStatus({
     });
   } else {
     toast.update(toastId, {
-      render: "Failed to send message!",
+      render: log || "Failed to send message!",
       type: "error",
       isLoading: false,
-      autoClose: 5000,
+      autoClose: 8000,
       hideProgressBar: false,
       pauseOnHover: true,
     });
