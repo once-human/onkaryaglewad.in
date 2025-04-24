@@ -1,50 +1,19 @@
 "use client";
 import ItemCards from "@/components/ItemCards";
 import textData from "@/constants/textData";
-import { useState } from "react";
-import { validateForm, sendEmail } from "@/utils/formUtils";
-import { FormData } from "@/types/interfaces";
-import { ToastComponent } from "@/components/toast";
 import SectionTitle from "@/components/SectionTitle";
 
 const ContactForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [errors, setErrors] = useState<Partial<FormData>>({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const formErrors = validateForm(formData);
-    setErrors(formErrors);
-
-    if (Object.keys(formErrors).length === 0) {
-      setIsSubmitted(true);
-      await sendEmail(formData);
-    } else {
-      console.log("Form validation failed. Please check the errors.");
-    }
-  };
-
   const placeHolderTheme =
     "p-2 mt-2 rounded-md text-sm font-normal textSecondaryTheme borderTheme transitionButtonTheme cardDarkerTheme";
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit} className="flex flex-col">
+      <form
+        action="https://formsubmit.co/contact@onkaryaglewad.in"
+        method="POST"
+        className="flex flex-col"
+      >
         <div className="flex flex-col">
           <label htmlFor="name" className="text-md font-medium textTheme">
             Name
@@ -55,12 +24,8 @@ const ContactForm = () => {
             id="name"
             placeholder="Enter your name here (e.g. Onkar Yaglewad)"
             className={placeHolderTheme}
-            value={formData.name}
-            onChange={handleChange}
+            required
           />
-          {errors.name && (
-            <p className="pt-1 text-sm errorTheme">{errors.name}</p>
-          )}
         </div>
         <div className="flex flex-col mt-5">
           <label htmlFor="email" className="text-md font-medium textTheme">
@@ -72,12 +37,8 @@ const ContactForm = () => {
             id="email"
             placeholder="Enter your email here (e.g. onkaryaglewad@gmail.com)"
             className={placeHolderTheme}
-            value={formData.email}
-            onChange={handleChange}
+            required
           />
-          {errors.email && (
-            <p className="pt-1 text-sm errorTheme">{errors.email}</p>
-          )}
         </div>
         <div className="flex flex-col mt-5">
           <label htmlFor="subject" className="text-md font-medium textTheme">
@@ -89,12 +50,8 @@ const ContactForm = () => {
             id="subject"
             placeholder="Enter your subject here (e.g. Just saying Hi!)"
             className={placeHolderTheme}
-            value={formData.subject}
-            onChange={handleChange}
+            required
           />
-          {errors.subject && (
-            <p className="pt-1 text-sm errorTheme">{errors.subject}</p>
-          )}
         </div>
         <div className="flex flex-col mt-5">
           <label htmlFor="message" className="text-md font-medium textTheme">
@@ -106,12 +63,8 @@ const ContactForm = () => {
             rows={5}
             placeholder="Enter your message here (e.g. Hello Onkar! I'd like to say Hi!)"
             className={placeHolderTheme}
-            value={formData.message}
-            onChange={handleChange}
+            required
           />
-          {errors.message && (
-            <p className="pt-1 text-sm errorTheme">{errors.message}</p>
-          )}
         </div>
         <button
           type="submit"
@@ -120,7 +73,6 @@ const ContactForm = () => {
           Submit
         </button>
       </form>
-      {isSubmitted && <ToastComponent />}
     </div>
   );
 };
