@@ -154,3 +154,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #a2a2a2;
 }
+
+/* Custom Toast Styles */
+.custom-toast-success {
+  background: #41AB5D !important; /* Apply custom green background */
+  color: white !important; /* Ensure text contrast */
+}
+
+/* Optional: Style progress bar for consistency */
+.custom-toast-success .Toastify__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* Keep default error toast styling for now */

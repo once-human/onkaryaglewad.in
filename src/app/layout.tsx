@@ -20,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="referrer" content="origin-when-cross-origin" />
+      </head>
       <body className={`${mainFont.className} bodyTheme`}>
         <ThemeProvider
           attribute="class"

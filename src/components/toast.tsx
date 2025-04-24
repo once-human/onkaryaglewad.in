@@ -26,7 +26,7 @@ export function toastStatus({
   if (success) {
     toast.update(toastId, {
       render: "Message sent successfully!",
-      type: "success",
+      className: "custom-toast-success",
       isLoading: false,
       autoClose: 5000,
       hideProgressBar: false,

@@ -36,8 +36,9 @@ const ContactForm = () => {
         // Add other hidden fields if necessary
     };
 
-    // IMPORTANT: Use the /ajax/ endpoint
-    const formAction = form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"); 
+    // REMOVE: const formAction = form.action.replace("formsubmit.co/", "formsubmit.co/ajax/");
+    // JUST USE form.action directly, as it already includes /ajax/
+    const formAction = form.action;
 
     try {
       const response = await fetch(formAction, {
