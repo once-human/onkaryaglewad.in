@@ -56,6 +56,7 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
   const [highlightNodes, setHighlightNodes] = useState<Set<string>>(new Set());
   const [highlightLinks, setHighlightLinks] = useState<Set<FGLinkObject<NodeData, LinkData>>>(new Set());
   const [hoverNode, setHoverNode] = useState<FGNodeObject<NodeData> | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false); // Track dragging state
 
   const nodeAnimationState = useRef<Map<string, NodeAnimState>>(new Map());
   const linkAnimationState = useRef<Map<FGLinkObject<NodeData, LinkData>, LinkAnimState>>(new Map());
@@ -124,20 +125,16 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     let changed = false;
     const targetNodeStates = new Map<string, NodeAnimState>();
     const targetLinkStates = new Map<FGLinkObject<NodeData, LinkData>, LinkAnimState>();
-    const isAnythingHovered = !!hoverNode; // Simpler check if hoverNode exists
+    const isAnythingHoveredOrDragged = !!hoverNode; // Combined check
     const hoverNodeId = hoverNode?.id as string | undefined;
 
     // Determine TARGET states
     graphData.nodes.forEach(node => {
       const nodeId = node.id as string;
-      // Highlighted means it's the hovered node OR a direct neighbor (only relevant if isAnythingHovered)
-      const isNodeInHoverGroup = isAnythingHovered && highlightNodes.has(nodeId);
+      const isNodeInHoverGroup = isAnythingHoveredOrDragged && highlightNodes.has(nodeId);
       
-      // Color: Purple if in hover group, otherwise Default Gray
       const targetColorRGB = isNodeInHoverGroup ? hexToRgb(NODE_HOVER_COLOR) : hexToRgb(NODE_DEFAULT_COLOR);
-      // Opacity: 1 if in hover group OR nothing is hovered, else Dimmed
-      const targetOpacity = !isAnythingHovered || isNodeInHoverGroup ? 1 : DIMMED_OPACITY;
-      // Radius: Scaled only if THIS node is the one directly hovered
+      const targetOpacity = !isAnythingHoveredOrDragged || isNodeInHoverGroup ? 1 : DIMMED_OPACITY;
       const targetRadiusScale = (nodeId === hoverNodeId) ? HOVER_NODE_RADIUS_SCALE : BASE_NODE_RADIUS_SCALE;
 
       targetNodeStates.set(nodeId, {
@@ -148,20 +145,15 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     });
 
     graphData.links.forEach((link) => {
-        // Highlighted means it connects to the hovered node (only relevant if isAnythingHovered)
-        const isLinkInHoverGroup = isAnythingHovered && highlightLinks.has(link);
+        const isLinkInHoverGroup = isAnythingHoveredOrDragged && highlightLinks.has(link);
 
-        // Color: Purple if in hover group, otherwise Default Gray
         const targetColorRGB = isLinkInHoverGroup ? LINK_HOVER_COLOR_RGB : LINK_DEFAULT_COLOR_RGB;
-        // Width: Hover width if in hover group, else Base width
         const targetWidth = isLinkInHoverGroup ? HOVER_LINK_WIDTH : BASE_LINK_WIDTH;
-        // Opacity: Default link opacity if in hover group OR nothing is hovered, else Dimmed
-        // Let's use a base opacity slightly lower than nodes even when not dimmed
         const baseLinkOpacity = 0.6;
-        const targetOpacity = !isAnythingHovered || isLinkInHoverGroup ? baseLinkOpacity : DIMMED_OPACITY * 0.7;
+        const targetOpacity = !isAnythingHoveredOrDragged || isLinkInHoverGroup ? baseLinkOpacity : DIMMED_OPACITY * 0.7;
 
-        targetLinkStates.set(link, { 
-            opacity: targetOpacity, 
+        targetLinkStates.set(link, {
+            opacity: targetOpacity,
             colorRGB: targetColorRGB,
             width: targetWidth,
         });
@@ -323,18 +315,41 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     }
   }, []); // Run once on mount
 
-  // Hover handler - Modified to call the callback
+  // Hover handler
   const handleNodeHover = useCallback((node: FGNodeObject<NodeData> | null) => {
-    // Log the raw node object received from the library
-    console.log("[SkillsGraph Hover Handler] Raw node object:", node);
-    // Log specifically if textSegmentId exists on the raw node
-    console.log("[SkillsGraph Hover Handler] node.textSegmentId:", node?.textSegmentId);
-    // Log if textSegmentId exists on a potential __data property
-    console.log("[SkillsGraph Hover Handler] node.__data?.textSegmentId:", node?.__data?.textSegmentId);
+    // Only update hover state if not currently dragging
+    if (!isDragging) {
+        console.log("[SkillsGraph Hover Handler] Raw node object:", node);
+        console.log("[SkillsGraph Hover Handler] node.textSegmentId:", node?.textSegmentId);
+        console.log("[SkillsGraph Hover Handler] node.__data?.textSegmentId:", node?.__data?.textSegmentId);
 
-    setHoverNode(node);
-    onNodeHoverCallback(node); // Call the passed callback
-  }, [onNodeHoverCallback]); // Add dependency
+        setHoverNode(node);
+        onNodeHoverCallback(node);
+    }
+  }, [onNodeHoverCallback, isDragging]); // Depend on isDragging
+
+  // Drag Handler (during drag)
+  const handleNodeDrag = useCallback((node: FGNodeObject<NodeData>) => {
+    console.log("[SkillsGraph Drag Handler] Dragging node:", node?.id);
+    setIsDragging(true); // Ensure dragging flag is set
+    // Update hover node *during* drag to keep highlight active
+    if (hoverNode?.id !== node.id) { // Avoid unnecessary state updates
+        setHoverNode(node);
+        onNodeHoverCallback(node); // Update text panel if needed
+    }
+  }, [hoverNode, onNodeHoverCallback]); // Depend on hoverNode to avoid loops
+
+  // Drag End Handler
+  const handleNodeDragEnd = useCallback((node: FGNodeObject<NodeData> | null) => {
+    console.log("[SkillsGraph Drag End Handler] Finished dragging node:", node?.id);
+    if (node) {
+      node.fx = node.x;
+      node.fy = node.y;
+    }
+    setIsDragging(false); // Clear dragging flag *before* clearing hover node
+    setHoverNode(null); // Clear hover state on drag end
+    onNodeHoverCallback(null); // Clear text panel
+  }, [onNodeHoverCallback]);
 
   return (
     <div
@@ -360,10 +375,9 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
           warmupTicks={350} // Keep increased warmup ticks
           d3AlphaDecay={0.015}
           d3VelocityDecay={0.55}
-          onNodeDragEnd={node => {
-            if (node) { node.fx = node.x; node.fy = node.y; }
-          }}
-          onEngineTick={handleEngineTick}
+          onNodeDrag={handleNodeDrag} // Use onNodeDrag for continuous update
+          onNodeDragEnd={handleNodeDragEnd} // Use modified drag end handler
+          onEngineTick={handleEngineTick} // Restore engine tick handler
         />
       ) : (
         <span className="text-sm">Loading Graph...</span> // Adjusted loading text slightly

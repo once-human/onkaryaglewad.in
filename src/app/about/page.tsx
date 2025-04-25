@@ -43,9 +43,9 @@ const Recommendations = () => {
         subTitle={textData.aboutPageData.subtitle.testimonials}
       />
       {textData.aboutPageData.testimonials && (
-        <ItemCards.testimonialCard
-          listItems={textData.aboutPageData.testimonials}
-        />
+      <ItemCards.testimonialCard
+        listItems={textData.aboutPageData.testimonials}
+      />
       )}
     </section>
   );
