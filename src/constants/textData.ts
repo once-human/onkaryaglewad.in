@@ -17,76 +17,164 @@ import {
   FaTelegram
 } from "react-icons/fa6";
 
-const aboutPageGraphData: GraphData = {
+// Final Refined Graph Structure - HIERARCHICAL & INTERCONNECTED
+const aboutPageGraphData = {
   nodes: [
-    { id: "coding", name: "Coding", val: 12, textSegmentId: "para-2" },
-    { id: "webdev", name: "Web Development", val: 10, textSegmentId: "para-2" },
-    { id: "earlywebsite", name: "Early Website Project", val: 5, textSegmentId: "para-2" },
-    { id: "trialerror", name: "Trial & Error", val: 5, textSegmentId: "para-2" },
-    { id: "building", name: "Building Projects", val: 11, textSegmentId: "para-3" },
-    { id: "socialplatform", name: "Social Platform (3K+ Users)", val: 6, textSegmentId: "para-3" },
-    { id: "scrappedprojects", name: "Scrapped Projects", val: 4, textSegmentId: "para-3" },
-    { id: "learning", name: "Continuous Learning", val: 10, textSegmentId: "para-3" },
-    { id: "resilience", name: "Resilience", val: 4, textSegmentId: "para-3" },
-    { id: "arch", name: "Arch Linux", val: 7, textSegmentId: "para-4" },
-    { id: "linux", name: "Linux Ecosystem", val: 6, textSegmentId: "para-4" },
-    { id: "understanding", name: "Understanding Internals", val: 6, textSegmentId: "para-4" },
-    { id: "fixingthings", name: "Fixing Things", val: 6, textSegmentId: "para-4" },
-    { id: "systems", name: "Systems Thinking", val: 9, textSegmentId: "para-4" },
-    { id: "debugging", name: "Debugging", val: 6, textSegmentId: "para-4" },
-    { id: "problemsolving", name: "Problem Solving", val: 9, textSegmentId: "para-4" },
-    { id: "foss", name: "FOSS", val: 8, textSegmentId: "para-5" },
-    { id: "opensource", name: "Open Source Contrib.", val: 4, textSegmentId: "para-5" },
-    { id: "collaboration", name: "Collaboration", val: 8, textSegmentId: "para-5" },
-    { id: "viaapp", name: "VIA App (Current)", val: 7, textSegmentId: "para-6" },
-    { id: "apis", name: "APIs", val: 5, textSegmentId: "para-6" },
-    { id: "databases", name: "Databases", val: 4, textSegmentId: "para-6" },
-    { id: "ideation", name: "Ideation", val: 5, textSegmentId: "para-7" },
-    { id: "communication", name: "Communication", val: 5, textSegmentId: "para-7" },
+    // --- Central Node ---
+    { id: "Onkar Yaglewad", name: "root", val: 35, textSegmentId: "para-1" }, // Keep name 'root', val 35
+
+    // --- Theme Nodes (Primary Branches) ---
+    { id: "theme-para-2", name: "Early Coding & Inspiration", val: 12, textSegmentId: "para-2" },
+    { id: "theme-para-3", name: "Project Experience & Learning", val: 12, textSegmentId: "para-3" },
+    { id: "theme-para-4", name: "OS & Systems Mindset", val: 12, textSegmentId: "para-4" },
+    { id: "theme-para-5", name: "FOSS & Collaboration", val: 12, textSegmentId: "para-5" },
+    { id: "theme-para-6", name: "Current Work (VIA)", val: 12, textSegmentId: "para-6" },
+    { id: "theme-para-7", name: "Building Philosophy", val: 12, textSegmentId: "para-7" },
+
+    // --- Existing Skill/Concept Nodes (Secondary) + NEW SUB-NODES ---
+    // Para 2
+    { id: "Early Coding (Tourism Website)", name: "Early Coding (Tourism Website)", val: 6, textSegmentId: "para-2" },
+    { id: "Web Fundamentals (HTML/CSS/JS)", name: "Web Fundamentals", val: 7, textSegmentId: "para-2" }, // Shortened name
+    { id: "Trial & Error", name: "Trial & Error", val: 5, textSegmentId: "para-2" },
+    { id: "Passion for Tech", name: "Passion for Tech", val: 7, textSegmentId: "para-2" },
+    { id: "DOM Manipulation", name: "DOM Manipulation", val: 5, textSegmentId: "para-2" }, // NEW
+    { id: "Problem Decomposition", name: "Problem Decomposition", val: 6, textSegmentId: "para-2" }, // NEW
+
+    // Para 3
+    { id: "Project Building", name: "Project Building", val: 9, textSegmentId: "para-3" },
+    { id: "Social Platform (3K+ Users)", name: "Social Platform (3K+ Users)", val: 7, textSegmentId: "para-3" },
+    { id: "Backend Dev (PHP/Node)", name: "Backend Dev", val: 7, textSegmentId: "para-3" }, // Shortened name
+    { id: "Scrapped Projects", name: "Scrapped Projects", val: 4, textSegmentId: "para-3" },
+    { id: "Learning from Experience", name: "Learning from Experience", val: 8, textSegmentId: "para-3" },
+    { id: "Failure Analysis", name: "Failure Analysis", val: 5, textSegmentId: "para-3" },
+    { id: "Web APIs (REST/HTTP)", name: "Web APIs", val: 7, textSegmentId: "para-3" }, // Shortened name
+    { id: "Database Design", name: "Database Design", val: 6, textSegmentId: "para-3" }, // NEW
+    { id: "User Authentication", name: "User Authentication", val: 6, textSegmentId: "para-3" }, // NEW
+
+    // Para 4
+    { id: "Arch Linux Configuration", name: "Arch Linux Config", val: 7, textSegmentId: "para-4" }, // Shortened name
+    { id: "Understanding System Internals", name: "System Internals", val: 7, textSegmentId: "para-4" }, // Shortened name
+    { id: "Debugging & Fixing", name: "Debugging & Fixing", val: 8, textSegmentId: "para-4" },
+    { id: "Linux CLI Utilities", name: "Linux CLI", val: 8, textSegmentId: "para-4" }, // Shortened name
+    { id: "Package Management (pacman)", name: "Package Management", val: 7, textSegmentId: "para-4" }, // Shortened name
+    { id: "Systems Mindset", name: "Systems Mindset", val: 8, textSegmentId: "para-4" },
+    { id: "Self-Directed Learning", name: "Self-Directed Learning", val: 9, textSegmentId: "para-4" },
+    { id: "Bash Shell", name: "Bash Shell", val: 7, textSegmentId: "para-4" },
+    { id: "Python 3", name: "Python 3", val: 7, textSegmentId: "para-4" },
+    { id: "System Tinkering", name: "System Tinkering", val: 7, textSegmentId: "para-4" },
+    { id: "Shell Scripting", name: "Shell Scripting", val: 6, textSegmentId: "para-4" }, // NEW
+    { id: "Containerization", name: "Containerization", val: 5, textSegmentId: "para-4" }, // NEW
+
+    // Para 5
+    { id: "FOSS Exploration", name: "FOSS Exploration", val: 6, textSegmentId: "para-5" },
+    { id: "Version Control (Git)", name: "Version Control (Git)", val: 9, textSegmentId: "para-5" },
+    { id: "Collaboration", name: "Collaboration", val: 6, textSegmentId: "para-5" },
+    { id: "Problem Solving", name: "Problem Solving", val: 9, textSegmentId: "para-5" },
+    { id: "Open Source Contribution", name: "OSS Contribution", val: 5, textSegmentId: "para-5" }, // NEW
+    { id: "Community Interaction", name: "Community Interaction", val: 4, textSegmentId: "para-5" }, // NEW
+    { id: "CI/CD Pipelines", name: "CI/CD Pipelines", val: 6, textSegmentId: "para-5" }, // NEW
+
+    // Para 6
+    { id: "VIA App (Ride-Sharing)", name: "VIA App (Ride-Sharing)", val: 8, textSegmentId: "para-6" },
+    { id: "Subscription Models", name: "Subscription Models", val: 5, textSegmentId: "para-6" },
+    { id: "Flutter Development", name: "Flutter Development", val: 7, textSegmentId: "para-6" },
+    { id: "Mobile App Architecture", name: "Mobile App Architecture", val: 6, textSegmentId: "para-6" },
+    { id: "UI/UX Design (Mobile)", name: "UI/UX (Mobile)", val: 5, textSegmentId: "para-6" }, // NEW
+    { id: "State Management (Mobile)", name: "State Management (Mobile)", val: 6, textSegmentId: "para-6" }, // NEW
+
+    // Para 7
+    { id: "Passion for Building", name: "Passion for Building", val: 8, textSegmentId: "para-7" },
+    { id: "Ideation & Discussion", name: "Ideation & Discussion", val: 5, textSegmentId: "para-7" },
+    { id: "Idea Generation", name: "Idea Generation", val: 5, textSegmentId: "para-7" },
+    { id: "Brainstorming", name: "Brainstorming", val: 5, textSegmentId: "para-7" },
+    { id: "Responsiveness", name: "Responsiveness", val: 4, textSegmentId: "para-7" }
   ],
   links: [
-    { source: "coding", target: "building" },
-    { source: "coding", target: "webdev" },
-    { source: "coding", target: "problemsolving" },
-    { source: "coding", target: "learning" },
-    { source: "building", target: "learning" },
-    { source: "building", target: "collaboration" },
-    { source: "learning", target: "problemsolving" },
-    { source: "learning", target: "resilience" },
-    { source: "problemsolving", target: "debugging" },
-    { source: "problemsolving", target: "systems" },
-    { source: "systems", target: "understanding" },
-    { source: "systems", target: "fixingthings" },
-    { source: "collaboration", target: "communication" },
-    { source: "apis", target: "databases" },
-    { source: "coding", target: "debugging" },
-    { source: "arch", target: "linux" },
-    { source: "arch", target: "understanding" },
-    { source: "arch", target: "fixingthings" },
-    { source: "linux", target: "systems" },
-    { source: "understanding", target: "debugging" },
-    { source: "foss", target: "linux" },
-    { source: "foss", target: "collaboration" },
-    { source: "foss", target: "opensource" },
-    { source: "foss", target: "understanding" },
-    { source: "earlywebsite", target: "coding" },
-    { source: "earlywebsite", target: "webdev" },
-    { source: "earlywebsite", target: "trialerror" },
-    { source: "socialplatform", target: "building" },
-    { source: "socialplatform", target: "webdev" },
-    { source: "socialplatform", target: "collaboration" },
-    { source: "viaapp", target: "building" },
-    { source: "viaapp", target: "collaboration" },
-    { source: "viaapp", target: "apis" },
-    { source: "viaapp", target: "databases" },
-    { source: "scrappedprojects", target: "building" },
-    { source: "scrappedprojects", target: "learning" },
-    { source: "scrappedprojects", target: "resilience" },
-    { source: "scrappedprojects", target: "trialerror" },
-    { source: "trialerror", target: "learning" },
-    { source: "fixingthings", target: "problemsolving" },
-    { source: "communication", target: "ideation" },
-    { source: "ideation", target: "building" },
+    // --- Central Node to Themes --- (Unchanged)
+    { source: "Onkar Yaglewad", target: "theme-para-2" },
+    { source: "Onkar Yaglewad", target: "theme-para-3" },
+    { source: "Onkar Yaglewad", target: "theme-para-4" },
+    { source: "Onkar Yaglewad", target: "theme-para-5" },
+    { source: "Onkar Yaglewad", target: "theme-para-6" },
+    { source: "Onkar Yaglewad", target: "theme-para-7" },
+
+    // --- Theme 2 Links + Sub-nodes + Cross-links ---
+    { source: "theme-para-2", target: "Early Coding (Tourism Website)" },
+    { source: "theme-para-2", target: "Web Fundamentals (HTML/CSS/JS)" },
+    { source: "theme-para-2", target: "Trial & Error" },
+    { source: "theme-para-2", target: "Passion for Tech" },
+    { source: "theme-para-2", target: "Problem Decomposition" }, // NEW
+    { source: "Web Fundamentals (HTML/CSS/JS)", target: "DOM Manipulation" }, // NEW
+    { source: "Early Coding (Tourism Website)", target: "Web Fundamentals (HTML/CSS/JS)" }, // Existing semantic link
+    { source: "Problem Decomposition", target: "Problem Solving" }, // Cross-link
+
+    // --- Theme 3 Links + Sub-nodes + Cross-links ---
+    { source: "theme-para-3", target: "Project Building" },
+    { source: "theme-para-3", target: "Social Platform (3K+ Users)" },
+    { source: "theme-para-3", target: "Backend Dev (PHP/Node)" },
+    { source: "theme-para-3", target: "Scrapped Projects" },
+    { source: "theme-para-3", target: "Learning from Experience" },
+    { source: "theme-para-3", target: "Failure Analysis" },
+    { source: "theme-para-3", target: "Web APIs (REST/HTTP)" },
+    { source: "Backend Dev (PHP/Node)", target: "Database Design" }, // NEW
+    { source: "Backend Dev (PHP/Node)", target: "User Authentication" }, // NEW
+    { source: "Social Platform (3K+ Users)", target: "User Authentication" }, // NEW
+    { source: "Web APIs (REST/HTTP)", target: "Backend Dev (PHP/Node)" }, // Existing semantic link
+    { source: "Learning from Experience", target: "Failure Analysis" }, // Existing semantic link
+    { source: "Project Building", target: "Backend Dev (PHP/Node)" }, // Cross-link
+
+    // --- Theme 4 Links + Sub-nodes + Cross-links ---
+    { source: "theme-para-4", target: "Arch Linux Configuration" },
+    { source: "theme-para-4", target: "Understanding System Internals" },
+    { source: "theme-para-4", target: "Debugging & Fixing" },
+    { source: "theme-para-4", target: "Linux CLI Utilities" },
+    { source: "theme-para-4", target: "Package Management (pacman)" },
+    { source: "theme-para-4", target: "Systems Mindset" },
+    { source: "theme-para-4", target: "Self-Directed Learning" },
+    { source: "theme-para-4", target: "Bash Shell" },
+    { source: "theme-para-4", target: "Python 3" },
+    { source: "theme-para-4", target: "System Tinkering" },
+    { source: "Bash Shell", target: "Shell Scripting" }, // NEW
+    { source: "Systems Mindset", target: "Containerization" }, // NEW
+    { source: "Understanding System Internals", target: "Systems Mindset" }, // Existing semantic link
+    { source: "Python 3", target: "Backend Dev (PHP/Node)" }, // Cross-link
+    { source: "Debugging & Fixing", target: "Failure Analysis" }, // Cross-link
+
+    // --- Theme 5 Links + Sub-nodes + Cross-links ---
+    { source: "theme-para-5", target: "FOSS Exploration" },
+    { source: "theme-para-5", target: "Version Control (Git)" },
+    { source: "theme-para-5", target: "Collaboration" },
+    { source: "theme-para-5", target: "Problem Solving" },
+    { source: "FOSS Exploration", target: "Open Source Contribution" }, // NEW
+    { source: "Collaboration", target: "Community Interaction" }, // NEW
+    { source: "Version Control (Git)", target: "CI/CD Pipelines" }, // NEW
+    { source: "Open Source Contribution", target: "Community Interaction" }, // NEW
+    { source: "Version Control (Git)", target: "Project Building" }, // Cross-link
+    { source: "Problem Solving", target: "Debugging & Fixing" }, // Cross-link
+
+    // --- Theme 6 Links + Sub-nodes + Cross-links ---
+    { source: "theme-para-6", target: "VIA App (Ride-Sharing)" },
+    { source: "theme-para-6", target: "Subscription Models" },
+    { source: "theme-para-6", target: "Flutter Development" },
+    { source: "theme-para-6", target: "Mobile App Architecture" },
+    { source: "Flutter Development", target: "UI/UX Design (Mobile)" }, // NEW
+    { source: "Flutter Development", target: "State Management (Mobile)" }, // NEW
+    { source: "Mobile App Architecture", target: "State Management (Mobile)" }, // NEW
+    { source: "Web APIs (REST/HTTP)", target: "Flutter Development" }, // Cross-link
+    { source: "Mobile App Architecture", target: "Systems Mindset" }, // Cross-link
+
+    // --- Theme 7 Links + Existing Sub-nodes + Cross-links --- (Unchanged)
+    { source: "theme-para-7", target: "Passion for Building" },
+    { source: "theme-para-7", target: "Ideation & Discussion" },
+    { source: "theme-para-7", target: "Idea Generation" },
+    { source: "theme-para-7", target: "Brainstorming" },
+    { source: "theme-para-7", target: "Responsiveness" },
+    { source: "Passion for Building", target: "Idea Generation" },
+    { source: "Ideation & Discussion", target: "Brainstorming" },
+    { source: "Idea Generation", target: "Brainstorming" },
+    { source: "Brainstorming", target: "Collaboration" },
+    { source: "Responsiveness", target: "Collaboration" },
+    { source: "Passion for Building", target: "Project Building" },
   ]
 };
 

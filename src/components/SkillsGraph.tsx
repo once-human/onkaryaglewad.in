@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 // Statically import, relying on parent dynamic import for SSR control
 import ForceGraph2D, { ForceGraphProps, NodeObject as FGNodeObject, LinkObject as FGLinkObject } from 'react-force-graph-2d';
 import textData from '@/constants/textData'; // Import textData
@@ -57,11 +57,39 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
   const [highlightLinks, setHighlightLinks] = useState<Set<FGLinkObject<NodeData, LinkData>>>(new Set());
   const [hoverNode, setHoverNode] = useState<FGNodeObject<NodeData> | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false); // Track dragging state
+  const [forceTick, setForceTick] = useState<number>(0); // ADDED: State to force re-render
 
   const nodeAnimationState = useRef<Map<string, NodeAnimState>>(new Map());
   const linkAnimationState = useRef<Map<FGLinkObject<NodeData, LinkData>, LinkAnimState>>(new Map());
 
   const graphRef = useRef<any>(); // Ref to access graph instance methods
+
+  // Calculate Default Highlight Sets
+  const { defaultHighlightNodes, defaultHighlightLinks } = useMemo(() => {
+    const centralNodeId = "Onkar Yaglewad";
+    const nodes = new Set<string>();
+    const links = new Set<FGLinkObject<NodeData, LinkData>>();
+
+    const centralNode = graphData.nodes.find(n => n.id === centralNodeId);
+    if (centralNode) {
+      nodes.add(centralNodeId);
+      graphData.links.forEach(link => {
+        const sourceId = typeof link.source === 'object' && link.source !== null ? (link.source as FGNodeObject<NodeData>).id : link.source as string | number | undefined;
+        const targetId = typeof link.target === 'object' && link.target !== null ? (link.target as FGNodeObject<NodeData>).id : link.target as string | number | undefined;
+
+        if (sourceId === centralNodeId) {
+          links.add(link);
+          if (targetId) nodes.add(targetId as string);
+        } else if (targetId === centralNodeId) {
+          links.add(link);
+          if (sourceId) nodes.add(sourceId as string);
+        }
+      });
+    }
+    console.log("[Default Highlights] Nodes:", nodes);
+    console.log("[Default Highlights] Links:", links.size);
+    return { defaultHighlightNodes: nodes, defaultHighlightLinks: links };
+  }, []); // Only compute once on mount
 
   // Dimension effect (unchanged)
   useEffect(() => {
@@ -83,7 +111,7 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     };
   }, []); 
 
-  // Highlight calculation effect
+  // Highlight calculation effect (based on actual hover/drag)
   useEffect(() => {
     console.log("[Highlight Effect] Hover node changed:", hoverNode?.id);
     const newHighlightNodes = new Set<string>();
@@ -102,10 +130,19 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
       });
     }
     console.log("[Highlight Effect] Calculated Highlight Nodes:", newHighlightNodes);
-    console.log("[Highlight Effect] Calculated Highlight Links:", newHighlightLinks.size); // Log size, not objects
+    console.log("[Highlight Effect] Calculated Highlight Links:", newHighlightLinks.size);
     setHighlightNodes(newHighlightNodes);
     setHighlightLinks(newHighlightLinks);
   }, [hoverNode]);
+
+  // ADDED: Effect to force periodic re-renders for float animation
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setForceTick(tick => tick + 1);
+    }, 100); // Update every 100ms
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, []); // Run once on mount
 
   // Interpolation functions
   const lerp = useCallback((current: number, target: number, factor: number): number => {
@@ -120,22 +157,41 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     ];
   }, [lerp]); // Depends on lerp
 
-  // Engine tick effect for animation updates - CORRECTED LOGIC
+  // Engine tick effect for animation updates - ADJUST ROOT NODE DEFAULT COLOR
   const handleEngineTick = useCallback(() => {
     let changed = false;
     const targetNodeStates = new Map<string, NodeAnimState>();
     const targetLinkStates = new Map<FGLinkObject<NodeData, LinkData>, LinkAnimState>();
-    const isAnythingHoveredOrDragged = !!hoverNode; // Combined check
-    const hoverNodeId = hoverNode?.id as string | undefined;
 
-    // Determine TARGET states
+    const activeHighlightNodes = hoverNode ? highlightNodes : defaultHighlightNodes;
+    const activeHighlightLinks = hoverNode ? highlightLinks : defaultHighlightLinks;
+    const isAnythingHighlighted = activeHighlightNodes.size > 0;
+    const currentHoveredNodeId = hoverNode?.id as string | undefined;
+    const centralNodeId = "Onkar Yaglewad"; // ID of the root node
+
+    // Determine TARGET states based on the active highlight set
     graphData.nodes.forEach(node => {
       const nodeId = node.id as string;
-      const isNodeInHoverGroup = isAnythingHoveredOrDragged && highlightNodes.has(nodeId);
-      
-      const targetColorRGB = isNodeInHoverGroup ? hexToRgb(NODE_HOVER_COLOR) : hexToRgb(NODE_DEFAULT_COLOR);
-      const targetOpacity = !isAnythingHoveredOrDragged || isNodeInHoverGroup ? 1 : DIMMED_OPACITY;
-      const targetRadiusScale = (nodeId === hoverNodeId) ? HOVER_NODE_RADIUS_SCALE : BASE_NODE_RADIUS_SCALE;
+      const isNodeInActiveGroup = isAnythingHighlighted && activeHighlightNodes.has(nodeId);
+
+      let targetColorRGB;
+      if (isNodeInActiveGroup) {
+        // If node is in the currently highlighted group (default or hover)
+        targetColorRGB = hexToRgb(NODE_HOVER_COLOR);
+      } else if (!hoverNode && nodeId === centralNodeId) {
+          // SPECIAL CASE: If nothing is hovered, keep the root node highlighted
+          targetColorRGB = hexToRgb(NODE_HOVER_COLOR);
+          // Ensure root is part of active highlights for opacity/label logic if needed
+          // This shouldn't strictly be needed if defaultHighlightNodes is calculated correctly,
+          // but adding belt-and-suspenders check:
+          if (!activeHighlightNodes.has(nodeId)) activeHighlightNodes.add(nodeId);
+      } else {
+        // Otherwise, use the default dimmed color
+        targetColorRGB = hexToRgb(NODE_DEFAULT_COLOR);
+      }
+
+      const targetOpacity = !isAnythingHighlighted || activeHighlightNodes.has(nodeId) ? 1 : DIMMED_OPACITY;
+      const targetRadiusScale = (nodeId === currentHoveredNodeId) ? HOVER_NODE_RADIUS_SCALE : BASE_NODE_RADIUS_SCALE;
 
       targetNodeStates.set(nodeId, {
           opacity: targetOpacity,
@@ -144,13 +200,13 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
       });
     });
 
+    // Determine link target states (no special change for root needed here)
     graphData.links.forEach((link) => {
-        const isLinkInHoverGroup = isAnythingHoveredOrDragged && highlightLinks.has(link);
-
-        const targetColorRGB = isLinkInHoverGroup ? LINK_HOVER_COLOR_RGB : LINK_DEFAULT_COLOR_RGB;
-        const targetWidth = isLinkInHoverGroup ? HOVER_LINK_WIDTH : BASE_LINK_WIDTH;
+        const isLinkInActiveGroup = isAnythingHighlighted && activeHighlightLinks.has(link);
+        const targetColorRGB = isLinkInActiveGroup ? LINK_HOVER_COLOR_RGB : LINK_DEFAULT_COLOR_RGB;
+        const targetWidth = isLinkInActiveGroup ? HOVER_LINK_WIDTH : BASE_LINK_WIDTH;
         const baseLinkOpacity = 0.6;
-        const targetOpacity = !isAnythingHoveredOrDragged || isLinkInHoverGroup ? baseLinkOpacity : DIMMED_OPACITY * 0.7;
+        const targetOpacity = !isAnythingHighlighted || isLinkInActiveGroup ? baseLinkOpacity : DIMMED_OPACITY * 0.7;
 
         targetLinkStates.set(link, {
             opacity: targetOpacity,
@@ -159,7 +215,7 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
         });
     });
 
-    // Interpolate CURRENT animation state towards TARGET state 
+    // Interpolate CURRENT animation state towards TARGET state
     nodeAnimationState.current.forEach((currentState, nodeId) => {
         const targetState = targetNodeStates.get(nodeId);
         if (!targetState) return;
@@ -197,51 +253,77 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
         }
     });
 
-  }, [hoverNode, highlightNodes, highlightLinks, lerp, lerpRGB]); 
+  }, [hoverNode, highlightNodes, highlightLinks, defaultHighlightNodes, defaultHighlightLinks, lerp, lerpRGB]); // Added default highlight dependencies
 
-  // Node painting using interpolated values
+  // Node painting using interpolated values - Uses forceTick implicitly via re-render
   const nodePaint = useCallback((node: FGNodeObject<NodeData>, ctx: CanvasRenderingContext2D, globalScale: number) => {
     const animState = nodeAnimationState.current.get(node.id as string) ?? {
         opacity: DIMMED_OPACITY, colorRGB: hexToRgb(NODE_DEFAULT_COLOR), radiusScale: BASE_NODE_RADIUS_SCALE
     };
-
     const label = node.name || '';
+
+    // --- Subtle Float Calculation ---
+    const floatAmplitude = 3.0; // Increased from 1.5
+    const floatSpeed = 0.0005;
+    // Basic hash function from node ID to vary the phase
+    let hash = 0;
+    const idStr = String(node.id);
+    for (let i = 0; i < idStr.length; i++) {
+        hash = (hash << 5) - hash + idStr.charCodeAt(i);
+        hash |= 0; // Convert to 32bit integer
+    }
+    const time = performance.now();
+    const offsetX = floatAmplitude * Math.sin(floatSpeed * time + hash);
+    const offsetY = floatAmplitude * Math.cos(floatSpeed * time + hash);
+    // --- End Subtle Float Calculation ---
+
     const baseFontSize = 10;
     const minFontSize = 4;
     const maxFontSize = 12;
     const fontSize = Math.max(minFontSize, Math.min(maxFontSize, baseFontSize / Math.sqrt(globalScale)));
     const baseNodeRadius = Math.sqrt(Math.max(0, node.val || 1)) * BASE_NODE_RADIUS_SCALE;
-    const nodeRadius = baseNodeRadius * animState.radiusScale; 
-    const labelOffset = nodeRadius + 3 / globalScale; 
+    const nodeRadius = baseNodeRadius * animState.radiusScale;
+    const labelOffset = nodeRadius + 3 / globalScale;
 
     const nodeColor = `rgba(${Math.round(animState.colorRGB[0])}, ${Math.round(animState.colorRGB[1])}, ${Math.round(animState.colorRGB[2])}, ${animState.opacity})`;
-    const labelColor = TEXT_COLOR; 
-    const nodeOpacity = animState.opacity; // Opacity is now part of the color
-    const borderOpacity = animState.opacity * 0.5; 
+    const labelColor = TEXT_COLOR;
+    const borderOpacity = animState.opacity * 0.5;
     const textOpacity = animState.opacity;
 
-    // Draw node circle (use calculated rgba color)
+    // Apply float offset to drawing coordinates
+    const drawX = (node.x ?? 0) + offsetX;
+    const drawY = (node.y ?? 0) + offsetY;
+
+    // Draw node circle
     ctx.fillStyle = nodeColor;
     ctx.beginPath();
-    ctx.arc(node.x ?? 0, node.y ?? 0, nodeRadius, 0, 2 * Math.PI, false);
+    ctx.arc(drawX, drawY, nodeRadius, 0, 2 * Math.PI, false);
     ctx.fill();
 
     // Draw border
     ctx.strokeStyle = NODE_BORDER_COLOR;
     ctx.globalAlpha = borderOpacity;
-    ctx.lineWidth = 0.3 / globalScale; 
+    ctx.lineWidth = 0.3 / globalScale;
+    ctx.beginPath();
+    ctx.arc(drawX, drawY, nodeRadius, 0, 2 * Math.PI, false);
     ctx.stroke();
-    ctx.globalAlpha = 1; 
+    ctx.globalAlpha = 1;
 
-    // Draw label
-    ctx.font = `${fontSize}px Inter, Sans-Serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top'; // Label still above node
-    ctx.fillStyle = labelColor;
-    ctx.globalAlpha = textOpacity; 
-    ctx.fillText(label, node.x ?? 0, (node.y ?? 0) + labelOffset);
-    ctx.globalAlpha = 1; 
-  }, []); 
+    // Determine if label should be drawn based on zoom (2.0) or active highlight status
+    const activeHighlightNodes = hoverNode ? highlightNodes : defaultHighlightNodes;
+    const shouldDrawLabel = globalScale >= 2.0 || activeHighlightNodes.has(node.id as string);
+
+    // Draw label conditionally
+    if (shouldDrawLabel) {
+        ctx.font = `${fontSize}px Inter, Sans-Serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'top';
+        ctx.fillStyle = labelColor;
+        ctx.globalAlpha = textOpacity;
+        ctx.fillText(label, drawX, drawY + labelOffset);
+        ctx.globalAlpha = 1;
+    }
+  }, [hoverNode, highlightNodes, defaultHighlightNodes]);
 
   // Define the hover/pointer interaction area
   const nodePointerAreaPaint = useCallback((node: FGNodeObject<NodeData>, color: string, ctx: CanvasRenderingContext2D) => {
@@ -272,83 +354,96 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
     return animState.width; 
   }, []);
 
-  // Effect to modify forces via ref - Use 'any' for types
+  // Effect to modify forces via ref - Moderate Settings for Hierarchy
   useEffect(() => {
     if (graphRef.current) {
-      // Charge force
+      // Charge force (Moderate repulsion)
       const chargeForce = graphRef.current.d3Force('charge') as any;
       if (chargeForce) {
-          chargeForce.strength(-300);
+        chargeForce.strength(-1000); // Reverted from -1200
       }
 
-      // Link force
+      // Link force (Increased distance, Moderate Strength)
       const linkForce = graphRef.current.d3Force('link') as any;
       if (linkForce) {
-          linkForce.distance(60).strength(0.05);
+        linkForce.distance(180).strength(0.03); // Reverted strength from 0.005
       }
 
-      // Add collision force - Define collisionRadius function
+      // Collision force (Moderate Radius Multiplier)
       const collisionRadius = (node: FGNodeObject<NodeData>) => {
-           const baseRadius = Math.sqrt(Math.max(0, node.val || 1)) * BASE_NODE_RADIUS_SCALE;
-           return baseRadius * 1.2; // Includes buffer
+        const baseRadius = Math.sqrt(Math.max(0, node.val || 1)) * BASE_NODE_RADIUS_SCALE;
+        return baseRadius * 1.8; // Reduced multiplier from 4.0, slightly increased from 1.4
       };
-      // Attempt to add collide force by name, passing the radius function
-      // This relies on the library exposing d3.forceCollide internally when passed this name
-      // Note: The underlying d3.forceCollide().radius(...) expects the function.
-      // Casting the force modification function to 'any' to bypass TS checks.
       try {
         const forceCollide = (graphRef.current.d3Force('collide', collisionRadius) as any);
-        if (forceCollide) { 
-            // Attempt to set strength if the force object is returned and has a strength method
-            if (typeof forceCollide.strength === 'function') {
-                 forceCollide.strength(0.8); 
-            }
+        if (forceCollide) {
+          if (typeof forceCollide.strength === 'function') {
+            forceCollide.strength(0.8);
+          }
         } else {
-            console.warn("Could not get or set collide force by name.");
+          console.warn("Could not get or set collide force by name.");
         }
       } catch (error) {
-          console.error("Error setting collide force:", error);
-          // Fallback or further handling might be needed
+        console.error("Error setting collide force:", error);
       }
+
+      // Keep Center force - Unchanged
+      try {
+        graphRef.current.d3Force('center', null);
+        graphRef.current.d3Force('center');
+      } catch (error) {
+        console.error("Error setting center force:", error);
+      }
+
+      // No Y force
 
       graphRef.current.d3ReheatSimulation();
     }
   }, []); // Run once on mount
 
-  // Hover handler
+  // NEW Effect to set initial zoom - ADJUSTED
+  useEffect(() => {
+    const timer = setTimeout(() => { // Add a small delay to ensure graph is ready
+      if (graphRef.current) {
+        console.log("Setting initial zoom...");
+        graphRef.current.zoom(1.3, 1000); // Zoom to 130% over 1 second (Changed from 1.5)
+      }
+    }, 100); // 100ms delay
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
+  }, []); // Run once after mount
+
+  // Hover handler - RESTORE TOOLTIP TRIGGER
   const handleNodeHover = useCallback((node: FGNodeObject<NodeData> | null) => {
     // Only update hover state if not currently dragging
     if (!isDragging) {
         console.log("[SkillsGraph Hover Handler] Raw node object:", node);
-        console.log("[SkillsGraph Hover Handler] node.textSegmentId:", node?.textSegmentId);
-        console.log("[SkillsGraph Hover Handler] node.__data?.textSegmentId:", node?.__data?.textSegmentId);
-
         setHoverNode(node);
-        onNodeHoverCallback(node);
+        onNodeHoverCallback(node); // <-- UNCOMMENTED to trigger tooltip update
     }
-  }, [onNodeHoverCallback, isDragging]); // Depend on isDragging
+  }, [onNodeHoverCallback, isDragging]);
 
-  // Drag Handler (during drag)
+  // Drag Handler (during drag) - RESTORE TOOLTIP TRIGGER
   const handleNodeDrag = useCallback((node: FGNodeObject<NodeData>) => {
     console.log("[SkillsGraph Drag Handler] Dragging node:", node?.id);
-    setIsDragging(true); // Ensure dragging flag is set
+    setIsDragging(true);
     // Update hover node *during* drag to keep highlight active
     if (hoverNode?.id !== node.id) { // Avoid unnecessary state updates
         setHoverNode(node);
-        onNodeHoverCallback(node); // Update text panel if needed
+        onNodeHoverCallback(node); // <-- UNCOMMENTED to trigger tooltip update
     }
-  }, [hoverNode, onNodeHoverCallback]); // Depend on hoverNode to avoid loops
+  }, [hoverNode, onNodeHoverCallback]);
 
-  // Drag End Handler
+  // Drag End Handler - Keep clearing tooltip
   const handleNodeDragEnd = useCallback((node: FGNodeObject<NodeData> | null) => {
     console.log("[SkillsGraph Drag End Handler] Finished dragging node:", node?.id);
     if (node) {
       node.fx = node.x;
       node.fy = node.y;
     }
-    setIsDragging(false); // Clear dragging flag *before* clearing hover node
-    setHoverNode(null); // Clear hover state on drag end
-    onNodeHoverCallback(null); // Clear text panel
+    setIsDragging(false);
+    setHoverNode(null);
+    onNodeHoverCallback(null);
   }, [onNodeHoverCallback]);
 
   return (
@@ -372,15 +467,16 @@ const SkillsGraph: React.FC<SkillsGraphProps> = ({ onNodeHoverCallback }) => {
           linkWidth={linkWidth} // Restore link styling callback
           linkDirectionalParticles={0}
           cooldownTicks={Infinity}
-          warmupTicks={350} // Keep increased warmup ticks
-          d3AlphaDecay={0.015}
-          d3VelocityDecay={0.55}
+          warmupTicks={500}
+          d3AlphaDecay={0.01}
+          d3AlphaMin={0} // Keep this just in case
+          d3VelocityDecay={0.3}
           onNodeDrag={handleNodeDrag} // Use onNodeDrag for continuous update
           onNodeDragEnd={handleNodeDragEnd} // Use modified drag end handler
           onEngineTick={handleEngineTick} // Restore engine tick handler
         />
       ) : (
-        <span className="text-sm">Loading Graph...</span> // Adjusted loading text slightly
+        <span className="text-sm">Loading Graph...</span>
       )}
     </div>
   );
