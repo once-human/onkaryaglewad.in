@@ -1193,8 +1193,8 @@ const connectPageData: ConnectPageData = {
     },
     {
       title: "GitHub",
-      link: WebLinks.github,
-      handler: "yaglewad-onkar",
+      link: "https://github.com/once-human",
+      handler: "once-human",
       icon: "github",
     },
     {
@@ -1211,8 +1211,8 @@ const connectPageData: ConnectPageData = {
     },
     {
       title: "LinkedIn",
-      link: WebLinks.linkedin,
-      handler: "yaglewad-onkar",
+      link: "https://www.linkedin.com/in/onkar-yaglewad",
+      handler: "onkar-yaglewad",
       icon: "linkedin",
     },
     {
