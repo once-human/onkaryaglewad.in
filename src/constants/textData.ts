@@ -1204,10 +1204,10 @@ const connectPageData: ConnectPageData = {
       icon: "instagram",
     },
     {
-      title: "Email (VIA)",
-      link: "mailto:onkar@viarides.in",
-      handler: "onkar@viarides.in",
-      icon: "email",
+      title: "WhatsApp",
+      link: "https://wa.me/917057273988?text=Hey%20Onkar%2C%20hopped%20in%20from%20your%20portfolio%20website%20at%20onkaryaglewad.in",
+      handler: "+91 7057 273 988",
+      icon: "whatsapp",
     },
     {
       title: "LinkedIn",
