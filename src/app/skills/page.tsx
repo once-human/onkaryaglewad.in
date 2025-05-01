@@ -1,5 +1,25 @@
+import { Metadata } from "next";
 import SectionTitle from "@/components/SectionTitle";
 import textData from "@/constants/textData";
+
+export const metadata: Metadata = {
+  title: "Skills",
+  description:
+    textData?.skillsPageData?.subtitle?.technical ??
+    "Discover Onkar Yaglewad's technical skills, soft skills, and language proficiencies.",
+  openGraph: {
+    title: "Skills | Onkar Yaglewad",
+    description:
+      textData?.skillsPageData?.subtitle?.technical ??
+      "Overview of Onkar Yaglewad's technical and soft skills.",
+  },
+  twitter: {
+    title: "Skills | Onkar Yaglewad",
+    description:
+      textData?.skillsPageData?.subtitle?.technical ??
+      "Overview of Onkar Yaglewad's technical and soft skills.",
+  },
+};
 
 export default function Skills() {
   return (

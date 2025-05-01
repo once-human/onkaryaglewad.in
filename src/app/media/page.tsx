@@ -4,6 +4,26 @@ import SectionTitle from "@/components/SectionTitle";
 import { MediaPageData } from "@/types/interfaces";
 import Image from "next/image";
 import profilePicture from "./icon.webp";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Media & Events",
+  description:
+    textData?.mediaPageData?.subtitle?.events ??
+    "Highlights from events, talks, and media appearances by Onkar Yaglewad.",
+  openGraph: {
+    title: "Media & Events | Onkar Yaglewad",
+    description:
+      textData?.mediaPageData?.subtitle?.events ??
+      "Event highlights and media appearances.",
+  },
+  twitter: {
+    title: "Media & Events | Onkar Yaglewad",
+    description:
+      textData?.mediaPageData?.subtitle?.events ??
+      "Event highlights and media appearances.",
+  },
+};
 
 export default function Media() {
   return (

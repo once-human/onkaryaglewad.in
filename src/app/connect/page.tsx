@@ -5,6 +5,7 @@ import SectionTitle from "@/components/SectionTitle";
 import { useState } from "react";
 import { ToastComponent, toastStatus } from "@/components/toast";
 import { toast } from "react-toastify";
+import { Metadata } from "next";
 
 const ContactForm = () => {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
@@ -160,6 +161,23 @@ const ContactForm = () => {
       </form>
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Connect",
+  description:
+    textData?.connectPageData?.description ??
+    "Get in touch with Onkar Yaglewad through various channels or send a direct message.",
+  openGraph: {
+    title: "Connect with Onkar Yaglewad",
+    description:
+      textData?.connectPageData?.description ?? "Contact Onkar Yaglewad.",
+  },
+  twitter: {
+    title: "Connect with Onkar Yaglewad",
+    description:
+      textData?.connectPageData?.description ?? "Contact Onkar Yaglewad.",
+  },
 };
 
 export default function Connect() {

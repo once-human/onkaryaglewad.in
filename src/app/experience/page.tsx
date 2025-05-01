@@ -3,6 +3,26 @@ import SectionTitle from "@/components/SectionTitle";
 import textData from "@/constants/textData";
 import Link from "next/link";
 import { PageLinks } from "@/constants/links";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Experience",
+  description:
+    textData?.experiencePageData?.subtitle?.work ??
+    "Explore Onkar Yaglewad's work experience, projects, tools proficiency, and volunteer activities.",
+  openGraph: {
+    title: "Experience | Onkar Yaglewad",
+    description:
+      textData?.experiencePageData?.subtitle?.work ??
+      "Explore Onkar Yaglewad's work experience and projects.",
+  },
+  twitter: {
+    title: "Experience | Onkar Yaglewad",
+    description:
+      textData?.experiencePageData?.subtitle?.work ??
+      "Explore Onkar Yaglewad's work experience and projects.",
+  },
+};
 
 export default function Experience() {
   return (

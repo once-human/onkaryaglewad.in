@@ -1,5 +1,6 @@
 import Image from "next/image";
 import profilePicture from "./icon.webp";
+import { Metadata } from "next";
 
 const ProfilePicture = ({ isMobile }: { isMobile: boolean }) => {
   const imageWidth = isMobile ? 200 : 300;
@@ -22,6 +23,19 @@ const ProfilePicture = ({ isMobile }: { isMobile: boolean }) => {
       />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Welcome to the portfolio of Onkar Yaglewad. Discover projects, skills, and experiences in software development.",
+  openGraph: {
+    title: "Home | Onkar Yaglewad",
+    description: "Welcome to the portfolio of Onkar Yaglewad.",
+  },
+  twitter: {
+    title: "Home | Onkar Yaglewad",
+    description: "Welcome to the portfolio of Onkar Yaglewad.",
+  },
 };
 
 export default function Home() {

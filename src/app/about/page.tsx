@@ -9,9 +9,21 @@ import textData from "@/constants/textData";
 // Import the new client component using default import syntax
 import AcquaintedSection from '@/components/AboutPageClient';
 
+const aboutIntro = textData?.aboutPageData?.introductionSegments
+  ?.map((segment) => segment.text)
+  ?.join(" ") ?? "Learn more about Onkar Yaglewad, his journey, skills, and passion for technology.";
+
 export const metadata: Metadata = {
-  title: 'About - Onkar Yaglewad',
-  description: 'Learn more about Onkar Yaglewad, a B.Tech CSE student passionate about web development, systems, and FOSS.',
+  title: "About Me",
+  description: aboutIntro.substring(0, 160), // Keep description concise
+  openGraph: {
+    title: "About Me | Onkar Yaglewad",
+    description: aboutIntro.substring(0, 160),
+  },
+  twitter: {
+    title: "About Me | Onkar Yaglewad",
+    description: aboutIntro.substring(0, 160),
+  },
 };
 
 const Achievements = () => {

@@ -10,8 +10,68 @@ import { Metadata } from "next";
 import metadataJSON from "@/config/metaData";
 import { TerminalProvider } from "@/context/TerminalContext";
 import TerminalView from "@/components/TerminalView";
+import Script from "next/script";
 
-export const metadata: Metadata = metadataJSON;
+const metadata: Metadata = {
+  metadataBase: new URL("https://onkaryaglewad.in"), // Replace with your actual domain
+  title: {
+    default: "Onkar Yaglewad - Software Developer | Portfolio",
+    template: "%s | Onkar Yaglewad",
+  },
+  description:
+    "Explore the portfolio of Onkar Yaglewad, a passionate software developer showcasing projects in web development, system design, and FOSS contributions.",
+  keywords: [
+    "Onkar Yaglewad",
+    "Software Developer",
+    "Portfolio",
+    "Web Development",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Arch Linux",
+    "FOSS",
+    "Pune",
+    "India",
+  ],
+  openGraph: {
+    title: "Onkar Yaglewad - Software Developer | Portfolio",
+    description:
+      "Explore the portfolio of Onkar Yaglewad, a passionate software developer.",
+    url: "https://onkaryaglewad.in", // Replace with your actual domain
+    siteName: "Onkar Yaglewad Portfolio",
+    // images: [ // Add a default image URL later if you have one
+    //   {
+    //     url: '/og-image.png',
+    //     width: 1200,
+    //     height: 630,
+    //   },
+    // ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Onkar Yaglewad - Software Developer | Portfolio",
+    description:
+      "Explore the portfolio of Onkar Yaglewad, a passionate software developer.",
+    // images: ['/twitter-image.png'], // Add a Twitter-specific image URL later
+    // creator: "@yourTwitterHandle", // Add your Twitter handle
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  // verification: { // Add verification tags if needed
+  //   google: 'YOUR_GOOGLE_VERIFICATION_CODE',
+  // },
+};
 
 export default function RootLayout({
   children,
@@ -44,6 +104,19 @@ export default function RootLayout({
             <SpeedInsights />
           </TerminalProvider>
         </ThemeProvider>
+        {/* Google Analytics Script */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-T48Q2MLFSR"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-T48Q2MLFSR');
+          `}
+        </Script>
       </body>
     </html>
   );
