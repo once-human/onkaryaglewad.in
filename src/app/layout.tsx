@@ -117,6 +117,12 @@ export default function RootLayout({
             gtag('config', 'G-T48Q2MLFSR');
           `}
         </Script>
+        {/* GoatCounter Script */}
+        <Script
+          strategy="afterInteractive"
+          data-goatcounter="https://oncehuman.goatcounter.com/count"
+          src="//gc.zgo.at/count.js"
+        />
       </body>
     </html>
   );
