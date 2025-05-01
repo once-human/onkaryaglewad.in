@@ -15,6 +15,7 @@ import { FaXTwitter, FaLocationDot } from "react-icons/fa6";
 import { calculateDuration } from "@/utils/dateUtils";
 import { IoIdCardOutline } from "react-icons/io5";
 import { FaTelegram } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa6";
 
 // Used in tileCard
 export function ListItemRow({ icon, title }: { icon: string; title: string }) {
@@ -378,7 +379,8 @@ type IconType =
   | typeof FaLinkedin
   | typeof FaInstagram
   | typeof FaYoutube
-  | typeof FaTelegram;
+  | typeof FaTelegram
+  | typeof FaWhatsapp;
 
 // Used in Connect page
 function getIconComponent(iconName: String): IconType {
@@ -397,6 +399,8 @@ function getIconComponent(iconName: String): IconType {
       return FaInstagram;
     case "telegram":
       return FaTelegram;
+    case "whatsapp":
+      return FaWhatsapp;
     default:
       throw new Error(`Invalid icon name: ${iconName}`);
   }
