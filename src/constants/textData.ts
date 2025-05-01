@@ -1205,8 +1205,8 @@ const connectPageData: ConnectPageData = {
     },
     {
       title: "WhatsApp",
-      link: "https://wa.me/917057273988?text=Hey%20Onkar%2C%20hopped%20in%20from%20your%20portfolio%20website%20at%20onkaryaglewad.in",
-      handler: "+91 7057 273 988",
+      link: "https://wa.me/917057273988?text=hey%20Onkar%2C%20hopped%20in%20from%20your%20portfolio%20website%20at%20onkaryaglewad.in.%20how%27re%20you%20doing%20%3F",
+      handler: "+91 70572 73988",
       icon: "whatsapp",
     },
     {
