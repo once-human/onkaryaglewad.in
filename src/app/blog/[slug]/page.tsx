@@ -1,7 +1,10 @@
 import { getAllPostSlugs, getPostData, PostData } from '@/lib/posts';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import LikeButton from '@/components/LikeButton'; // Import the Client Component
+import LikeButton from '@/components/LikeButton';
+import ViewCounter from '@/components/ViewCounter'; // Import the new component
+import { Suspense } from 'react'; // Import Suspense
+import { FiEye } from 'react-icons/fi'; // Import Eye Icon for fallback
 
 // Generate static paths for all posts
 export async function generateStaticParams() {
@@ -31,10 +34,6 @@ export async function generateMetadata({
 // The page component
 export default async function PostPage({ params }: { params: { slug: string } }) {
   const postData = await getData(params.slug);
-  // Construct the target URL for the view counter service
-  const targetUrl = `https://onkaryaglewad.in/blog/${postData.slug}`;
-  // Hits service URL - tracks views based on the 'targetUrl'
-  const viewCountBadgeUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=${encodeURIComponent(targetUrl)}&count_bg=%231F2937&title_bg=%23374151&icon=&icon_color=%23E5E7EB&title=views&edge_flat=true`;
 
   return (
     <div>
@@ -56,8 +55,15 @@ export default async function PostPage({ params }: { params: { slug: string } })
                   day: 'numeric',
                 })}
               </span>
-              {/* Live View Counter Badge (using hits.seeyoufarm.com) */}
-              <img src={viewCountBadgeUrl} alt="View Count" className="inline-block"/> 
+              {/* Use Suspense for the async ViewCounter component */}
+              <Suspense fallback={
+                <span className="flex items-center">
+                  <FiEye className="mr-1.5 h-4 w-4" />
+                  <span>...</span>
+                </span>
+              }>
+                <ViewCounter slug={postData.slug} /> 
+              </Suspense>
             </div>
             {postData.image && (
               <div className="relative mt-6 aspect-video w-full"> {/* Use aspect ratio */}

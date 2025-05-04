@@ -133,6 +133,13 @@ export default function RootLayout({
             })(window, document, "clarity", "script", "rcl8ootfam");
           `}
         </Script>
+        {/* Umami Analytics Script */}
+        <Script 
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="b4fe4506-cf0f-4d37-8d08-284bfb02993f"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
