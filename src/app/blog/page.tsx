@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   description: 'Read my thoughts and articles.',
 };
 
+// Trivial comment added to trigger rebuild
 const BlogCard = ({ post }: { post: PostData }) => {
   return (
     <Link href={`/blog/${post.slug}`} className="group block h-full">
