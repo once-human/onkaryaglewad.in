@@ -2,7 +2,7 @@
 title: 'What If Memories Had Version Control?'
 date: '2025-05-04' # Keep this date
 summary: "A personal reflection viewing life's journey, mistakes, growth, relationships, through the lens of Git, pondering what it means to commit forward when you can't revert the past."
-image: '/images/blog/placeholder.png' # TODO: Replace placeholder image
+image: '/images/blog/what-if-memories-had-version-control.png' # TODO: Replace placeholder image
 tags: ['git', 'life', 'memories', 'reflection']
 ---
 
