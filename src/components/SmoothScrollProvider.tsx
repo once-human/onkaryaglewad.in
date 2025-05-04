@@ -1,7 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, createContext, useContext } from 'react';
 import Lenis from 'lenis';
+
+// Create Context
+const LenisContext = createContext<Lenis | null>(null);
+
+// Custom hook to use the context
+export const useLenis = () => useContext(LenisContext);
 
 interface SmoothScrollProviderProps {
   children: React.ReactNode;
@@ -13,10 +19,10 @@ const SmoothScrollProvider: React.FC<SmoothScrollProviderProps> = ({ children })
   useEffect(() => {
     // Initialize Lenis
     const lenis = new Lenis({
-      // You can adjust options here if needed (e.g., lerp, duration)
-      // lerp: 0.1, 
-      // duration: 1.2,
-      // smoothTouch: true, // Might improve touch experience
+      // Reverting lerp to default
+      lerp: 0.1, // Explicitly set near default
+      // duration: 1.2, // Keep default
+      // smoothTouch: true, // Removed invalid option
     });
     lenisRef.current = lenis;
 
@@ -36,7 +42,12 @@ const SmoothScrollProvider: React.FC<SmoothScrollProviderProps> = ({ children })
     };
   }, []); // Empty dependency array ensures this runs only once
 
-  return <>{children}</>; // Just render children, provider handles the effect
+  return (
+    // Provide the ref's current value (the Lenis instance)
+    <LenisContext.Provider value={lenisRef.current}>
+      {children}
+    </LenisContext.Provider>
+  );
 };
 
-export default SmoothScrollProvider; 
+export default SmoothScrollProvider;

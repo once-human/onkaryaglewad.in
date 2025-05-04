@@ -1,10 +1,15 @@
-html {
+/* Removed native smooth scroll */
+/* html {
   scroll-behavior: smooth;
-}
+} */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  overscroll-behavior: contain;
+}
 
 /* Custom Theme */
 

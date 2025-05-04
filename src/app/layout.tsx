@@ -11,6 +11,7 @@ import metadataJSON from "@/config/metaData";
 import { TerminalProvider } from "@/context/TerminalContext";
 import TerminalView from "@/components/TerminalView";
 import Script from "next/script";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 const metadata: Metadata = {
   metadataBase: new URL("https://onkaryaglewad.in"), // Replace with your actual domain
@@ -90,19 +91,21 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TerminalProvider>
-            <div className="relative flex flex-col min-h-screen">
-              <NavBar />
-              <main className="py-6 pb-5 md:pb-10 mt-20 md:mt-24 xs:mx-6 sm:mx-12 md:mx-16 flex-grow">
-                {children}
-              </main>
-              <ThemeSwitcher />
-              <Footer />
-            </div>
-            <TerminalView />
-            <Analytics />
-            <SpeedInsights />
-          </TerminalProvider>
+          <SmoothScrollProvider>
+            <TerminalProvider>
+              <div className="relative flex flex-col min-h-screen">
+                <NavBar />
+                <main className="py-6 pb-5 md:pb-10 mt-20 md:mt-24 xs:mx-6 sm:mx-12 md:mx-16 flex-grow">
+                  {children}
+                </main>
+                <ThemeSwitcher />
+                <Footer />
+              </div>
+              <TerminalView />
+              <Analytics />
+              <SpeedInsights />
+            </TerminalProvider>
+          </SmoothScrollProvider>
         </ThemeProvider>
         {/* Google Analytics Script */}
         <Script
