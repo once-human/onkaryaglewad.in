@@ -1,8 +1,9 @@
 ---
 title: 'My First Blog Post'
 date: '2024-08-05'
-image: 'https://picsum.photos/seed/samplepost/1200/630'
-excerpt: 'This is a short summary of my first blog post, now with a placeholder image!'
+summary: 'This is a short summary of my first blog post, now with a placeholder image and tags!'
+image: '/images/blog/placeholder.png'
+tags: ['sample', 'tech', 'thoughts']
 ---
 
 ## Introduction

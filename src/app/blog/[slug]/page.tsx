@@ -1,10 +1,10 @@
 import { getAllPostSlugs, getPostData, PostData } from '@/lib/posts';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import LikeButton from '@/components/LikeButton';
-import ViewCounter from '@/components/ViewCounter'; // Import the new component
-import { Suspense } from 'react'; // Import Suspense
-import { FiEye } from 'react-icons/fi'; // Import Eye Icon for fallback
+import { formatDate } from '@/utils/formatDate';
+import { FaRegClock, FaTags, FaArrowLeft } from 'react-icons/fa';
+import Link from 'next/link';
+import { notFound } from "next/navigation";
 
 // Generate static paths for all posts
 export async function generateStaticParams() {
@@ -24,76 +24,119 @@ async function getData(slug: string): Promise<PostData> {
 export async function generateMetadata({
   params,
 }: { params: { slug: string } }): Promise<Metadata> {
-  const postData = await getData(params.slug);
-  return {
-    title: postData.title,
-    description: postData.excerpt, // Use excerpt for description
-  };
+  try {
+    const post = await getData(params.slug);
+    return {
+      title: `${post.title} | Blog`,
+      description: post.summary,
+    };
+  } catch (error) {
+    return {
+      title: "Post Not Found",
+      description: "This blog post could not be found.",
+    };
+  }
 }
 
 // The page component
-export default async function PostPage({ params }: { params: { slug: string } }) {
-  const postData = await getData(params.slug);
+export default async function Post({ params }: { params: { slug: string } }) {
+  let post: PostData;
+  try {
+    post = await getData(params.slug);
+  } catch (error) {
+    notFound();
+  }
 
+  if (!post) {
+    notFound();
+  }
+  
   return (
-    <div>
-      <section key={postData.title} className="py-8">
-        <article className="prose prose-invert mx-auto max-w-3xl lg:prose-lg prose-img:rounded-lg">
-          {/* Refined prose classes, max-width */}
-          {/* Post Header */}
-          <div className="mb-8 border-b border-gray-700 pb-6">
-            <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-100 md:text-4xl lg:text-5xl">
-              {/* Adjusted heading size/weight */}
-              {postData.title}
-            </h1>
-            {/* Meta information: Date and View Count */}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-base text-gray-400">
-              <span>
-                Published on {new Date(postData.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </span>
-              {/* Use Suspense for the async ViewCounter component */}
-              <Suspense fallback={
-                <span className="flex items-center">
-                  <FiEye className="mr-1.5 h-4 w-4" />
-                  <span>...</span>
-                </span>
-              }>
-                <ViewCounter slug={postData.slug} /> 
-              </Suspense>
-            </div>
-            {postData.image && (
-              <div className="relative mt-6 aspect-video w-full"> {/* Use aspect ratio */}
+    <div className="py-8 md:py-12">
+      {/* Back Button (Visible on small screens, above content) */}
+      <div className="container mx-auto px-4 max-w-3xl mb-6 md:mb-8 sm:hidden"> 
+        <Link 
+          href="/blog"
+          className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200 group"
+        >
+          <FaArrowLeft className="mr-2 h-4 w-4 transition-transform duration-200 group-hover:-translate-x-1" />
+          Back to Blog
+        </Link>
+      </div>
+
+      {/* Increased gap-x for more space */}
+      <div className="container mx-auto flex items-start gap-x-6 md:gap-x-10 px-4">
+        {/* Back Button Container (For large screens) */}
+        <div className="flex-shrink-0 hidden sm:block pt-1 md:pt-2"> 
+          <Link 
+            href="/blog"
+            className="inline-flex items-center text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 
+                       transition-colors duration-200 group 
+                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-gray-900"
+            aria-label="Back to Blog"
+          >
+            <FaArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-1 mr-2" />
+            <span className="hidden md:inline">Back to Blog</span>
+          </Link>
+        </div>
+
+        {/* Main Content Area */}
+        <section className="flex-grow max-w-3xl w-full">
+          <article key={post.title} className="rounded-lg overflow-hidden">
+            {/* Use post.image (local path from frontmatter) */}
+            {post.image && (
+              <div className="relative w-full aspect-video mb-6 md:mb-8">
                 <Image
-                  src={postData.image}
-                  alt={`${postData.title} cover image`}
+                  src={post.image} // Reverted to local path
+                  alt={`${post.title} cover image`}
                   fill
                   style={{ objectFit: 'cover' }}
-                  className="rounded-lg"
+                  className="rounded-lg shadow-sm"
                   priority
-                  sizes="(max-width: 768px) 100vw, 896px" // Adjusted sizes based on max-w-3xl
+                  sizes="(max-width: 768px) 100vw, 896px"
                 />
               </div>
             )}
-          </div>
 
-          {/* Post Content */}
-          <div
-            dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
-            className="prose prose-invert max-w-none prose-headings:mt-8 prose-headings:font-semibold prose-headings:text-primary-400 prose-a:text-secondary-400 prose-a:no-underline hover:prose-a:text-secondary-300 hover:prose-a:underline prose-strong:text-gray-200 prose-code:rounded prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-code:text-sm prose-code:text-tertiary-300 prose-code:before:content-[''] prose-code:after:content-[''] prose-blockquote:border-l-4 prose-blockquote:border-primary-500 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-400"
-            // Added/refined more prose styles for better readability
-          />
+            <div className="p-0"> {/* Removed padding from here */}
+              <header className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                <h1 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl">
+                  {post.title}
+                </h1>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 dark:text-gray-400">
+                  <span>{formatDate(post.date)}</span>
+                  {post.readingTime && post.readingTime > 0 && (
+                    <span className="flex items-center">
+                      <FaRegClock className="mr-1.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+                      {post.readingTime} min read
+                    </span>
+                  )}
+                </div>
+                {post.tags && post.tags.length > 0 && (
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <FaTags className="h-4 w-4 text-gray-500 dark:text-gray-400 flex-shrink-0 mr-1" aria-hidden="true" />
+                    {post.tags.map((tag) => (
+                      <span key={tag} className="text-xs font-medium text-primary-700 dark:text-primary-300 bg-primary-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </header>
 
-          {/* Like Button Placeholder */}
-          <div className="mt-10 border-t border-gray-700 pt-6 text-center">
-            <LikeButton slug={postData.slug} />
-          </div>
-
-        </article>
-      </section>
+              <div
+                dangerouslySetInnerHTML={{ __html: post.contentHtml || '' }}
+                className="prose prose-lg dark:prose-invert max-w-none 
+                           prose-a:text-primary-600 hover:prose-a:text-primary-700 
+                           dark:prose-a:text-primary-400 dark:hover:prose-a:text-primary-300
+                           prose-img:rounded-lg prose-img:shadow-sm
+                           prose-headings:scroll-mt-20 prose-headings:font-semibold 
+                           prose-code:before:content-[''] prose-code:after:content-['']"
+              />
+            </div>
+          </article>
+        </section>
+      </div>
     </div>
   );
 } 

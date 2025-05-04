@@ -6,13 +6,25 @@ import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'content/posts');
 
+// Define the expected structure of post data including new fields
 export interface PostData {
   slug: string;
   title: string;
   date: string;
-  image: string;
-  excerpt: string;
-  contentHtml?: string; // Optional for list view
+  summary: string; // Or excerpt, ensure consistency
+  image?: string;
+  tags?: string[]; // Added tags
+  readingTime?: number; // Added reading time (in minutes)
+  contentHtml?: string; // Added for single post page
+  [key: string]: any; // Allow other frontmatter properties
+}
+
+function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 200;
+  const text = content.replace(/<[^>]*>/g, ""); // Strip HTML tags
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  const readingTime = Math.ceil(wordCount / wordsPerMinute);
+  return readingTime;
 }
 
 export function getSortedPostsData(): PostData[] {
@@ -31,13 +43,19 @@ export function getSortedPostsData(): PostData[] {
       // Use gray-matter to parse the post metadata section
       const matterResult = matter(fileContents);
 
+      // Calculate reading time
+      const readingTime = calculateReadingTime(matterResult.content);
+
       // Combine the data with the slug
       return {
         slug,
-        title: matterResult.data.title as string,
-        date: matterResult.data.date as string,
-        image: matterResult.data.image as string,
-        excerpt: matterResult.data.excerpt as string,
+        title: matterResult.data.title || "Untitled Post",
+        date: matterResult.data.date || new Date().toISOString(),
+        summary: matterResult.data.summary || "",
+        image: matterResult.data.image || null,
+        tags: matterResult.data.tags || [], // Read tags, default to empty array
+        readingTime, // Add reading time
+        ...(matterResult.data as { [key: string]: any }), // Spread other data
       };
     });
 
@@ -77,13 +95,19 @@ export async function getPostData(slug: string): Promise<PostData> {
     .process(matterResult.content);
   const contentHtml = processedContent.toString();
 
+  // Calculate reading time
+  const readingTime = calculateReadingTime(matterResult.content);
+
   // Combine the data with the slug and contentHtml
   return {
     slug,
     contentHtml,
-    title: matterResult.data.title as string,
-    date: matterResult.data.date as string,
-    image: matterResult.data.image as string,
-    excerpt: matterResult.data.excerpt as string,
+    title: matterResult.data.title || "Untitled Post",
+    date: matterResult.data.date || new Date().toISOString(),
+    summary: matterResult.data.summary || "",
+    image: matterResult.data.image || null,
+    tags: matterResult.data.tags || [], // Read tags
+    readingTime, // Add reading time
+    ...(matterResult.data as { [key: string]: any }),
   };
 } 
