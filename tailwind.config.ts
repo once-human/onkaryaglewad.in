@@ -25,6 +25,7 @@ const config: Config = {
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     function ({ matchUtilities, theme }: any) {
       matchUtilities(
         {
