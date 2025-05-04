@@ -167,3 +167,26 @@
 }
 
 /* Keep default error toast styling for now */
+
+/* Utility for smooth transitions */
+/* ... */
+
+/* Removed opacity pulse for orbiting particle */
+/* @keyframes pulse-opacity-particle { ... } */
+/* .animate-pulse-opacity-particle { ... } */
+
+/* Re-adding bounce-subtle animation */
+@keyframes bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px); /* Gentle bounce distance */
+  }
+}
+
+.animate-bounce-subtle {
+  animation: bounce-subtle 2.5s ease-in-out infinite; /* Slower, smoother duration */
+}
+
+/* ... Keep float animation definition ... */

@@ -51,7 +51,7 @@ export default function NavBar() {
   );
 
   return (
-    <nav className="xs:px-6 sm:px-12 md:px-16 pt-8 pb-5 fixed w-full top-0 z-10 outline outline-5 navBarTheme">
+    <nav className="xs:px-6 sm:px-12 md:px-16 pt-8 pb-5 fixed w-full top-0 z-50 outline outline-5 navBarTheme">
       <div className="flex flex-col md:flex-row justify-between">
         <div className="flex items-center justify-between">
           {/* ⚙️ Logo */}
