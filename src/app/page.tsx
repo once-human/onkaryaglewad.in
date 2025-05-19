@@ -6,6 +6,8 @@ import Link from "next/link";
 import SectionTitle from "@/components/SectionTitle";
 import HeroSection from "@/components/HeroSection";
 import { FaArrowRight } from "react-icons/fa";
+import { projectData } from "@/constants/projectData"; // Import projectData
+import FeaturedProjectCard from "@/components/FeaturedProjectCard"; // Changed to FeaturedProjectCard
 
 // Define the skills with updated radiusFactors for desired overlap
 
@@ -54,27 +56,10 @@ const layer3Skills = [
 // Combine all layers
 const skills = [...layer1Skills, ...layer2Skills, ...layer3Skills];
 
-// Placeholder data for featured projects
-const featuredProjects = [
-  {
-    title: "Project Alpha",
-    description: "A brief description of Project Alpha, showcasing key features.",
-    image: "/images/blog/placeholder.png",
-    link: "/projects/alpha",
-  },
-  {
-    title: "Project Beta",
-    description: "An overview of Project Beta and its innovative solutions.",
-    image: "/images/blog/placeholder.png",
-    link: "/projects/beta",
-  },
-  {
-    title: "Project Gamma",
-    description: "Details about Project Gamma, highlighting its impact.",
-    image: "/images/blog/placeholder.png",
-    link: "/projects/gamma",
-  },
-];
+// Select featured projects by ID
+const featuredProjectIds = ["impulse-os", "event-management-platform", "evoframe"];
+const homePageFeaturedProjects = projectData.filter(project => featuredProjectIds.includes(project.id))
+  .sort((a, b) => featuredProjectIds.indexOf(a.id) - featuredProjectIds.indexOf(b.id)); // Ensure correct order
 
 export const metadata: Metadata = {
   title: "Home",
@@ -98,30 +83,14 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <SectionTitle title="Featured Projects" />
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {featuredProjects.map((project, index) => (
-              <Link href={project.link} key={index} className="block group">
-                <div className="rounded-xl overflow-hidden cardDarkerButtonTheme h-full flex flex-col">
-                  <div className="relative w-full h-48">
-                    <Image
-                      src={project.image}
-                      alt={`Image of ${project.title}`}
-                      layout="fill"
-                      objectFit="cover"
-                      className="transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="p-5 flex flex-col flex-grow">
-                    <h3 className="text-lg font-semibold textTheme mb-2">{project.title}</h3>
-                    <p className="textSecondaryTheme text-sm flex-grow">{project.description}</p>
-                  </div>
-                </div>
-              </Link>
+            {homePageFeaturedProjects.map((project) => (
+              <FeaturedProjectCard key={project.id} project={project} />
             ))}
           </div>
           <div className="mt-10 flex justify-center">
             <Link href="/projects" 
                   className="group flex items-center text-sm font-medium textButtonTheme transitionButtonTheme">
-              View More Projects
+              View All Projects
               <FaArrowRight 
                 className="ml-2 transition-transform duration-300 ease-out group-hover:translate-x-1" 
                 size={14} 
