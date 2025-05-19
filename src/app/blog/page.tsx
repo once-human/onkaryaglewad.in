@@ -9,6 +9,7 @@ import { FaTags } from "react-icons/fa";
 export const metadata: Metadata = {
   title: "Blog | Onkar Yaglewad",
   description: "A collection of my thoughts, learnings, and articles.",
+  robots: "noindex",
 };
 
 export default function Blog() {
