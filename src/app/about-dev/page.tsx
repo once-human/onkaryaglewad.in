@@ -1,6 +1,5 @@
-// REMOVE "use client"; directive
-
 import { Metadata } from 'next';
+import ItemCards from "@/components/ItemCards";
 import SectionTitle from "@/components/SectionTitle";
 import { TimelineItem } from "@/components/TimeLine";
 import textData from "@/constants/textData";
@@ -46,12 +45,30 @@ const Achievements = () => {
   );
 };
 
+const Recommendations = () => {
+  return (
+    <section id="recommendations">
+      <SectionTitle
+        title={textData.aboutPageData.title.testimonials}
+        subTitle={textData.aboutPageData.subtitle.testimonials}
+      />
+      {textData.aboutPageData.testimonials && (
+      <ItemCards.testimonialCard
+        listItems={textData.aboutPageData.testimonials}
+      />
+      )}
+    </section>
+  );
+};
+
 export default function About() {
   return (
     <div>
       <AcquaintedSection />
       <hr className="my-12 gradientDivider" />
       <Achievements />
+      <hr className="my-12 gradientDivider" />
+      <Recommendations />
     </div>
   );
-}
+} 

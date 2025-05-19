@@ -229,52 +229,40 @@ const aboutPageData: AboutPageData = {
 
   achievementsList: [
     {
-      title: "Intern Software Engineer",
-      date: "Sep 2024",
+      title: "2nd Position - IT Olympiad",
+      date: "2018",
       description:
-        "Started an internship as a Software Engineer at Random Software Ltd, working on AI, Software Engineering, and Cloud Computing projects.",
+        "Secured 2nd position in a national-level IT championship at MCE Society's PAI College.",
     },
     {
-      title: "LinkedIn Top Artificial Intelligence (AI) Voice",
-      date: "Feb 2024",
+      title: "5th Position - Retracer",
+      date: "2022",
       description:
-        "Community Top Voice. People on LinkedIn find Dileepa Bandara an insightful contributor in AI skill.",
+        "Achieved 5th rank in Retracer at the annual, national level technical festival of College of Engineering, Pune (COEP Tech.).",
     },
     {
-      title: "Gold Microsoft Learn Student Ambassador",
-      date: "Feb 2024",
+      title: "Lead Organizer - India's largest FOSS hackathon",
+      date: "Feb 2025",
       description:
-        "Received the highest milestone within the Microsoft Learn Student Ambassadors program, in recognition of exceptional dedication and impactful contributions to both the community and technology.",
+        "Spearheaded organization of India's largest FOSS hackathon under FOSS United.",
     },
     {
-      title: "Found Microsoft Learn Student Club - NIBM",
-      date: "Jan 2024",
+      title: "Managed Partnerships - PuneFOSS 3.0",
+      date: "Mar 2025",
       description:
-        "Established the Microsoft Learn Student Club at the National Institute of Business Management, a student-led community dedicated to empowering students with technical skills and career opportunities in technology.",
+        "Managed partnerships for PuneFOSS 3.0, the city's flagship open-source conference.",
     },
     {
-      title: "Completed 10+ Events as a Speaker",
-      date: "Dec 2023",
+      title: "Freelanced for 6+ brands",
+      date: "2022-2025",
       description:
-        "Delivered engaging presentations on various topics, including Software Development, AI, and Cloud Computing, at tech events and meetups, inspiring and educating audiences on the latest trends and technologies.",
+        "Freelanced for 6+ brands, including FadersAcademy and Rasta Café.",
     },
     {
-      title: "Established NIBM Computing Society",
-      date: "Oct 2022",
+      title: "Core Maintainer - Rising OS",
+      date: "2024",
       description:
-        "Started the NIBM Computing Society, a student-led organization dedicated to fostering a culture of innovation, learning, and collaboration among computing students at the National Institute of Business Management.",
-    },
-    {
-      title: "Colors Award",
-      date: "Jan 2018",
-      description:
-        "Received the prestigious Colors Award for outstanding achievements in academics, extracurricular activities, and community service, recognizing exceptional leadership and contributions to the school community at Maliyadeva Model School.",
-    },
-    {
-      title: "President's Scout Award",
-      date: "Jan 2016",
-      description:
-        "Earned the President's Scout Award, the highest rank in the Sri Lanka Scout Association, for demonstrating exceptional leadership, service, and commitment to the principles of scouting.",
+        "Served as a Core Maintainer of Rising OS custom Android ROM for 6 months.",
     },
   ],
 
@@ -398,80 +386,95 @@ const experiencePageData: ExperiencePageData = {
 
   work: [
     {
-      title: "Web Development Intern",
-      org: "DYPIU · Internship",
+      title: "Product Intern",
+      org: "Bajaj Finserv · Internship",
       location: "Pune",
-      years: "Nov 2022 - Feb 2023",
+      years: "Jun 2024 - Aug 2024",
       status:
-        "Responsible for customization, development and improvement of college's Moodle platform.",
-      image: "rsl-l",
-      imageL: "rsl-d",
-      link: PageLinks.experience.rsl,
-    },
-    {
-      title: "WordPress Development Intern",
-      org: "Mark AD · Internship",
-      location: "Remote",
-      years: "Jan 2023 - May 2023",
-      status:
-        "Solely crafted and launched websites for 4 diverse businesses, amplifying their online presence. Adept in digital marketing strategies.",
-      image: "pd",
-      imageL: "pd",
-      link: PageLinks.experience.pd,
+        "Managed build and run processes for Store Locator module and Compliance framework across CUG and production builds of the app and web platforms; collaborated with QA, IT, and Design teams to resolve `bugs` and ensure smooth deployments.",
+      image: "placeholder", // Placeholder
+      imageL: "placeholder", // Placeholder
+      link: "#", // Placeholder
+      calculatedDurationOverride: "3 months", // Added override duration
     },
     {
       title: "Event Coordinator Intern",
-      org: "Make-a-Wish India · Internship",
-      location: "Remote",
-      years: "June 2023 - July 2023",
+      org: "Make-a-Wish Foundation India · Internship",
+      location: "Pune",
+      years: "Jun 2023 - July 2023",
       status:
-        "Orchestrated events, spreading joy to children. Enhanced skills in nonprofit work, communication, social services, and operations.",
-      image: "wd",
-      imageL: "wd",
-      link: PageLinks.experience.wd,
+        "Facilitated onboarding of underprivileged children into the Make-A-Wish program; worked alongside the CEO to manage events and deliver impactful experiences for 600+ lives.",
+      image: "placeholder", // Placeholder
+      imageL: "placeholder", // Placeholder
+      link: "#", // Placeholder
+      calculatedDurationOverride: "1 month", // Added override duration
+    },
+    {
+      title: "Web Development Intern",
+      org: "Mark AD · Internship",
+      location: "Raipur",
+      years: "Jan 2023 - May 2023",
+      status:
+        "Solely developed and deployed 4 client websites using WordPress and PHP, driving up to 11K weekly visitors and generating qualified business leads.",
+      image: "placeholder", // Placeholder
+      imageL: "placeholder", // Placeholder
+      link: "#", // Placeholder
+      calculatedDurationOverride: "4 months", // Added override duration
+    },
+    {
+      title: "Web Development Intern",
+      org: "DY Patil International University · Internship",
+      location: "Akurdi",
+      years: "Nov 2022 - Feb 2023",
+      status:
+        "Developed and enhanced the university's Moodle LMS using PHP, supporting 4000+ students and 80+ faculty across live teacher and student portals.",
+      image: "placeholder", // Placeholder
+      imageL: "placeholder", // Placeholder
+      link: "#", // Placeholder
+      calculatedDurationOverride: "4 months", // Added override duration
     },
   ],
 
   projects: [
     {
-      title: "MahaDarshan",
+      title: "Impulse OS - Custom Linux Distro",
       description:
-        "Developed and optimized MahaDarshan, a responsive and SEO-friendly tourism website using HTML, CSS, and JavaScript, hosted on reliable servers for peak performance.",
-      image: "student-profiler",
-      keyWords: ["HTML", "CSS", "JavaScript"],
-      link: "/",
+        "Engineered a minimal Arch-based Linux distro with Hyprland, linux-zen kernel, and Material You-inspired UX, optimized for performance and beginner usability.",
+      image: "placeholder", // Placeholder
+      keyWords: ["Linux", "OS", "UX", "Performance", "Hyprland", "Rust"], // Added more specific keywords
+      link: "#", // Placeholder
     },
     {
-      title: "Drip Limitless - Social Networking Platform",
+      title: "EvoFrame - Gesture & Voice Controlled Smart Glasses",
       description:
-        "Led Drip Limitless project, crafting a dynamic platform with JavaScript, PHP, Node.js. Achieved 5K+ members, real-time chat, analytics—boasting excellence!",
-      image: "ggez",
-      keyWords: ["JavaScript", "PHP", "Node.js"],
-      link: "/",
+        "Built and 3D printed smart glasses with Raspberry Pi, OpenCV, and Python for gesture and voice-based control, enhancing hands-free accessibility and interaction.",
+      image: "placeholder", // Placeholder
+      keyWords: ["Raspberry Pi", "OpenCV", "Python", "Hardware", "IoT", "3D Printing"], // Added more specific keywords
+      link: "#", // Placeholder
     },
     {
-      title: "Norse - Feel the Music",
+      title: "Drip Limitless - Social Media Platform",
       description:
-        "Crafted Norse Music, dynamic streaming web app, utilizing Spotify API. Optimized API, integrated Redis, achieving 25% engagement boost with 200+ users.",
-      image: "railway-guider",
-      keyWords: ["Web Development", "Spotify API", "Redis"],
-      link: "/",
+        "Led development of a full-stack social platform with real-time chat and analytics using Node.js, PHP, and Docker, reaching 5K+ users and boosting engagement by 25%.",
+      image: "placeholder", // Placeholder
+      keyWords: ["Node.js", "PHP", "Docker", "Full-stack", "Social Media", "Web Sockets", "Analytics"], // Added more specific keywords
+      link: "#", // Placeholder
     },
     {
-      title: "Atmos",
+      title: "MahaDarshan - State Tourism Website",
       description:
-        "Elevated Atmos with WebGL-driven landing pages, Unreal Engine 5 space, and chat API integration for immersive 3D social interactions.",
-      image: "car-tracking",
-      keyWords: ["WebGL", "Unreal Engine 5", "API Integration"],
-      link: "/",
+        "Created and hosted a responsive tourism portal using HTML, CSS, and JS at age 15, achieving SEO optimization and smooth performance on live servers.",
+      image: "placeholder", // Placeholder
+      keyWords: ["HTML", "CSS", "JavaScript", "SEO", "Web Development", "Performance"], // Added more specific keywords
+      link: "#", // Placeholder
     },
     {
-      title: "Attendify",
+      title: "Additional Projects", // Using a general title for the summary
       description:
-        "Engineered Attendify with Python, leveraging OpenCV and dlib for automated attendance through facial recognition, boosting efficiency.",
-      image: "banner",
-      keyWords: ["Python", "OpenCV", "dlib", "Facial Recognition"],
-      link: "/",
+        "Built various apps including those with Flutter and Jetpack Compose, facial recognition tools, alumni platforms, and ride-hailing concepts. Also developed kiosks and smart waste systems.",
+      image: "placeholder", // Placeholder
+      keyWords: ["Flutter", "Jetpack Compose", "AI", "Mobile Dev", "Hardware", "IoT"], // Added relevant keywords
+      link: "https://onkaryaglewad.in/projects", // Using the link provided in CV
     },
   ],
 

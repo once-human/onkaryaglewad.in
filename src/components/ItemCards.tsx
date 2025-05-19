@@ -184,10 +184,17 @@ const iconCard = ({ listItems, page }: { listItems: any; page: string }) => {
             </p>
             <p className="pt-0 text-sm font-normal text-start textSecondaryTheme">
               {item.years}
-              <span className="hidden md:inline">
-                {" "}
-                · {calculateDuration(item.years)}
-              </span>
+              {item.calculatedDurationOverride ? (
+                <span className="hidden md:inline">
+                  {" "}
+                  · {item.calculatedDurationOverride}
+                </span>
+              ) : (
+                <span className="hidden md:inline">
+                  {" "}
+                  · {calculateDuration(item.years)}
+                </span>
+              )}
             </p>
             <p className="pt-0 text-sm font-normal text-start textSecondaryTheme">
               {page === "Media" ? item.handler : item.location}

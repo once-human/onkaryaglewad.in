@@ -78,6 +78,7 @@ export interface ExperiencePageData {
     image: string;
     imageL: string;
     link: string;
+    calculatedDurationOverride?: string;
   }>;
   projects: Array<{
     title: string;
