@@ -183,21 +183,23 @@ const iconCard = ({ listItems, page }: { listItems: any; page: string }) => {
                 : ""}
             </p>
             <p className="pt-0 text-sm font-normal text-start textSecondaryTheme">
-              {item.years}
-              {item.calculatedDurationOverride ? (
+              {page === "Experience" || page === "Volunteering" ? item.location : item.years}
+              {item.calculatedDurationOverride && page === "Experience" ? (
                 <span className="hidden md:inline">
                   {" "}
                   · {item.calculatedDurationOverride}
                 </span>
               ) : (
+                page === "Experience" && (
                 <span className="hidden md:inline">
                   {" "}
                   · {calculateDuration(item.years)}
                 </span>
+                )
               )}
             </p>
             <p className="pt-0 text-sm font-normal text-start textSecondaryTheme">
-              {page === "Media" ? item.handler : item.location}
+              {page === "Media" ? item.handler : page === "Experience" || page === "Volunteering" ? '' : item.location}
             </p>
             {item.status ? <hr className="mt-2 mb-2 divider" /> : <></>}
             <p className="pt-1 text-sm font-normal text-start textSecondaryTheme">

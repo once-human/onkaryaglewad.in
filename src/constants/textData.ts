@@ -388,50 +388,46 @@ const experiencePageData: ExperiencePageData = {
     {
       title: "Product Intern",
       org: "Bajaj Finserv · Internship",
-      location: "Pune",
+      location: "Jun 2024 - Aug 2024 · Pune",
       years: "Jun 2024 - Aug 2024",
-      status:
-        "Managed build and run processes for Store Locator module and Compliance framework across CUG and production builds of the app and web platforms; collaborated with QA, IT, and Design teams to resolve `bugs` and ensure smooth deployments.",
-      image: "placeholder", // Placeholder
-      imageL: "placeholder", // Placeholder
-      link: "#", // Placeholder
-      calculatedDurationOverride: "3 months", // Added override duration
+      status: "Managed build and run processes for Store Locator module and Compliance framework across CUG and production builds of the app and web platforms; collaborated with QA, IT, and Design teams to resolve `bugs` and ensure smooth deployments.",
+      image: "placeholder",
+      imageL: "placeholder",
+      link: "#",
+      calculatedDurationOverride: "3 months",
     },
     {
       title: "Event Coordinator Intern",
       org: "Make-a-Wish Foundation India · Internship",
-      location: "Pune",
+      location: "Jun 2023 - July 2023 · Pune",
       years: "Jun 2023 - July 2023",
-      status:
-        "Facilitated onboarding of underprivileged children into the Make-A-Wish program; worked alongside the CEO to manage events and deliver impactful experiences for 600+ lives.",
-      image: "placeholder", // Placeholder
-      imageL: "placeholder", // Placeholder
-      link: "#", // Placeholder
-      calculatedDurationOverride: "1 month", // Added override duration
+      status: "Facilitated onboarding of underprivileged children into the Make-A-Wish program; worked alongside the CEO to manage events and deliver impactful experiences for 600+ lives.",
+      image: "placeholder",
+      imageL: "placeholder",
+      link: "#",
+      calculatedDurationOverride: "1 month",
     },
     {
       title: "Web Development Intern",
       org: "Mark AD · Internship",
-      location: "Raipur",
+      location: "Jan 2023 - May 2023 · Raipur",
       years: "Jan 2023 - May 2023",
-      status:
-        "Solely developed and deployed 4 client websites using WordPress and PHP, driving up to 11K weekly visitors and generating qualified business leads.",
-      image: "placeholder", // Placeholder
-      imageL: "placeholder", // Placeholder
-      link: "#", // Placeholder
-      calculatedDurationOverride: "4 months", // Added override duration
+      status: "Solely developed and deployed 4 client websites using WordPress and PHP, driving up to 11K weekly visitors and generating qualified business leads.",
+      image: "placeholder",
+      imageL: "placeholder",
+      link: "#",
+      calculatedDurationOverride: "4 months",
     },
     {
       title: "Web Development Intern",
       org: "DY Patil International University · Internship",
-      location: "Akurdi",
+      location: "Nov 2022 - Feb 2023 · Akurdi",
       years: "Nov 2022 - Feb 2023",
-      status:
-        "Developed and enhanced the university's Moodle LMS using PHP, supporting 4000+ students and 80+ faculty across live teacher and student portals.",
-      image: "placeholder", // Placeholder
-      imageL: "placeholder", // Placeholder
-      link: "#", // Placeholder
-      calculatedDurationOverride: "4 months", // Added override duration
+      status: "Developed and enhanced the university's Moodle LMS using PHP, supporting 4000+ students and 80+ faculty across live teacher and student portals.",
+      image: "placeholder",
+      imageL: "placeholder",
+      link: "#",
+      calculatedDurationOverride: "4 months",
     },
   ],
 
@@ -875,49 +871,31 @@ const experiencePageData: ExperiencePageData = {
 
   volunteer: [
     {
-      title: "Member",
-      org: "Google Developers Students Club (GDSC)",
-      location: "DYPIU",
-      years: "2022",
-      status: "Active member of the Google Developers Students Club, participating in tech events and workshops.",
-      image: "msft",
-      link: PageLinks.experience.mlsa,
+      title: "FOSS Hack Pune",
+      org: "FOSS United Foundation",
+      location: "2025 · Pune",
+      years: "2025",
+      status: "Lead Organizer of India's largest FOSS hackathon, bringing together developers, designers, and innovators to build open-source solutions. Managed event logistics, participant coordination, and technical mentorship.",
+      image: "placeholder",
+      link: "#",
     },
     {
-      title: "Participant",
-      org: "Compose Camp Workshops",
-      location: "Android",
-      years: "2022",
-      status: "Attended Compose Camp workshops on Android with Kotlin, enhancing mobile development skills.",
-      image: "mlsa",
-      link: PageLinks.experience.mlsaLK,
+      title: "PuneFOSS 3.0",
+      org: "FOSS United Pune",
+      location: "2025 · Pune",
+      years: "2025",
+      status: "Managed community partnerships for the city's flagship open-source conference, facilitating collaborations between tech communities and industry partners.",
+      image: "placeholder",
+      link: "#",
     },
     {
-      title: "Participant",
-      org: "Joy of Learning: C Programming",
-      location: "CSE department, DYPIU",
-      years: "2022",
-      status: "Participated in C Programming workshop organized by the CSE department.",
-      image: "aicsl",
-      link: PageLinks.experience.aicsl,
-    },
-    {
-      title: "Participant",
-      org: "Competitive Coding Activities",
-      location: "Code-Decode community",
-      years: "2023",
-      status: "Participated in competitive coding activities, enhancing problem-solving skills.",
-      image: "mlsc-nibm",
-      link: PageLinks.experience.mlscnibm,
-    },
-    {
-      title: "Participant",
-      org: "eChai Ventures",
-      location: "eChai Ventures",
-      years: "2023",
-      status: "Participated in entrepreneurship events, gaining insights into business and networking.",
-      image: "sldf",
-      link: PageLinks.experience.sldf,
+      title: "Lead Web Development",
+      org: "TEDxDyp",
+      location: "Pune", // Assuming location for context
+      years: "Year", // Placeholder year
+      status: "Led the web development efforts for TEDxDyp, an independently organized TED event, including building and maintaining the event website.",
+      image: "placeholder", // Placeholder
+      link: "#", // Placeholder
     },
   ],
 };

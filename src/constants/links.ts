@@ -41,7 +41,7 @@ export const PageLinks = {
     pd: "",
     wd: "https://linkedin.com/company/wingzdev/",
     ddst: "https://linkedin.com/company/dds-techvira/",
-    projects: WebLinks.github + "?tab=repositories",
+    projects: "/projects",
     mlsa: "https://mvp.microsoft.com/studentambassadors/",
     mlsaLK: "https://linkedin.com/company/mlsasrilanka/",
     aicsl: "https://linkedin.com/company/aicsl/",
