@@ -1,6 +1,13 @@
 import ItemCards from "@/components/ItemCards";
 import textData from "@/constants/textData";
 import SectionTitle from "@/components/SectionTitle";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: "Event Highlights | Onkar Yaglewad",
+  description: "A showcase of event highlights and participations.",
+  robots: "noindex",
+};
 
 export default function Highlights() {
   return (

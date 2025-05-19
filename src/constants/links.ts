@@ -15,7 +15,6 @@ export const NavLinks = [
   { href: "/about", key: "about", label: "About" },
   { href: "/experience", key: "experience", label: "Experience" },
   { href: "/projects", key: "projects", label: "Projects" },
-  { href: "/highlights", key: "highlights", label: "Highlights" },
   { href: "/connect", key: "connect", label: "Connect" },
 ];
 
